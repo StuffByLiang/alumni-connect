@@ -1,0 +1,14 @@
+{
+  "name": "shad_connect",
+  "version": "1.0.0",
+  "description": "shad network for alumnis",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && nodemon backend/bin/www\" \"cd frontend && npm start\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^4.1.1"
+  }
+}
