@@ -8,6 +8,8 @@ class App extends Component {
     fetch('/users')
       .then(res => res.json())
       .then(users => this.setState({ users }));
+
+    // /users redirects to backend, you can find the json data in /backend/routes/users.js
   }
 
   render() {
