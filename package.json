@@ -4,6 +4,7 @@
   "description": "shad network for alumnis",
   "main": "index.js",
   "scripts": {
+    "setup": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\" \"npm install\"",
     "start": "concurrently \"cd backend && nodemon backend/bin/www\" \"cd frontend && npm start\""
   },
   "author": "",
