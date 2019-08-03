@@ -8,6 +8,10 @@ Navigate into a directory you would like to put the project folder in and then c
 
     git clone https://github.com/StuffByLiang/shad_connect.git
 
+Install Sequlize globally
+
+    npm install -g sequelize-cli
+
 Then install dependencies
 
     npm run setup

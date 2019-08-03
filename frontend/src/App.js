@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, } from 'react-router-dom';
 import './App.css';
 
+/* import components */
+import Navbar from './components/Navbar';
+
+/* import pages */
+import HomePage from './pages/HomePage';
+import SamplePage from './pages/SamplePage';
+
 class App extends Component {
-  state = {users: []}
-
-  componentDidMount() {
-    fetch('/users')
-      .then(res => res.json())
-      .then(users => this.setState({ users }));
-
-    // /users redirects to backend, you can find the json data in /backend/routes/users.js
-  }
-
   render() {
     return (
-      <div className="App">
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
-        )}
-      </div>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <div id="page-body">
+            <Route path="/" component={HomePage} exact />
+            <Route path="/sample-page" component={SamplePage} />
+          </div>
+        </div>
+      </Router>
     );
   }
 }
