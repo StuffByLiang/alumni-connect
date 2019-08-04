@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Container } from '@material-ui/core'
+
 class HomePage extends Component {
   constructor(props) {
     super(props);
@@ -16,12 +18,12 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div>
+      <Container maxWidth="lg">
         <h1>this is the home page!</h1>
         {this.state.users.map(user =>
           <div key={user.id}>{user.username}</div>
         )}
-      </div>
+      </Container>
     );
   }
 }
