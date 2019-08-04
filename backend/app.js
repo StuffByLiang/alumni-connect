@@ -1,13 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// database related shit
+const { Model } = require('objection');
+const Knex = require('knex');
+const knexConfig = require('./knexfile');
 
-var app = express();
+const knex = Knex(knexConfig.development);
+Model.knex(knex);
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+
+const app = express();
 
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));

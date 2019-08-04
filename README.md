@@ -8,13 +8,31 @@ Navigate into a directory you would like to put the project folder in and then c
 
     git clone https://github.com/StuffByLiang/shad_connect.git
 
-Install Sequlize globally
-
-    npm install -g sequelize-cli
-
 Then install dependencies
 
     npm run setup
+
+Install knex globally
+
+    npm i -g knex
+
+Fill in MySQL database details by creating ./backend/knexfile.js
+
+    module.exports = {
+      development: {
+        client: 'mysql',
+        connection: {
+          host : '',
+          user : '',
+          password : '',
+          database : ''
+        }
+      }
+    };
+
+Migrate Databases by typing in
+
+    knex migrate:latest
 
 Your done!
 
