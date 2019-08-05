@@ -8,49 +8,64 @@ const serializeError = require('serialize-error');
 const handleError = require( __base + 'components/errors/handle.js');
 
 module.exports = {
-  create(username, firstname, lastname, password, email) {
-    return new Promise(async (resolve, reject) => {
-      // create a fucking user
-      try {
-        const hashedPass = await bcrypt.hash(password, saltRounds);
-        const newPerson = await User
-          .query()
-          .insert({ username: username, firstname: firstname, lastname: lastname, password: hashedPass, email: email });
+  async create(username, firstname, lastname, password, email) {
+    try {
+      const hashedPass = await bcrypt.hash(password, saltRounds);
+      const newPerson = await User
+        .query()
+        .insert({ username: username, firstname: firstname, lastname: lastname, password: hashedPass, email: email });
 
-          resolve({
-            result: "success",
-            data: newPerson
-          });
-      } catch (err) {
-        handleError(err);
-        err.message = JSON.stringify(err, Object.getOwnPropertyNames(err));
-        reject({
-          result: "error",
-          data: serializeError(err)
-        });
-      }
-    })
+        return {
+          result: "success",
+          data: newperson
+        };
+    } catch (err) {
+      handleError(err);
+      err.message = JSON.stringify(err, Object.getOwnPropertyNames(err));
+      return {
+        result: "error",
+        data: serializeError(err)
+      };
+    }
   },
 
-  find(query) {
-    return new Promise(async (resolve, reject) => {
-      // create a fucking user
-      try {
-        const users = await findQuery(User)
-          .allow(['id', 'firstname', 'lastname', 'email'])
-          .build(query);
+  async find(query) {
+    // find multiple users
+    try {
+      const users = await findQuery(User)
+        .allow(['id', 'firstname', 'lastname', 'email'])
+        .build(query);
 
-          resolve({
-            result: "success",
-            data: users
-          });
-      } catch (err) {
-        handleError(err);
-        reject({
-          result: "error",
-          data: serializeError(err)
-        });
-      }
-    })
+        return users;
+    } catch (err) {
+      handleError(err);
+      return {
+        result: "error",
+        data: serializeError(err)
+      };
+    }
+  },
+
+  async findOne(query) {
+    try {
+      const user = await User.query().findOne(query)
+      return user;
+    } catch (err) {
+      handleError(err);
+      return {
+        result: "error",
+        data: serializeError(err)
+      };
+    }
+  },
+
+  async comparePassword(pass, hash) {
+    try {
+      const result = await bcrypt.compare(pass, hash);
+      return result;
+    } catch (err) {
+      handleError(err);
+      return err;
+    }
   }
 };

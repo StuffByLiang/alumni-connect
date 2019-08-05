@@ -11,25 +11,30 @@ const { Model } = require('objection');
 const Knex = require('knex');
 const knexConfig = require('./knexfile');
 
-const knex = Knex(knexConfig.development);
-Model.knex(knex);
+// authentication related stuff
+var passportInit = require('./components/auth/passportInit.js')
 
+// Routes
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const userRouter = require('./routes/user');
 
-const app = express();
+// Set up database stuff
+const knex = Knex(knexConfig.development);
+Model.knex(knex);
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+const app = express(); //create express server
 
+// helper middlewares
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+passportInit(app);
+
+// Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/user', userRouter);
@@ -48,7 +53,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json('error');
 });
 
 module.exports = app;

@@ -11,7 +11,7 @@ import HomePage from './pages/HomePage';
 import SamplePage from './pages/SamplePage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-
+import ProfilePage from './pages/ProfilePage';
 
 class App extends Component {
   render() {
@@ -24,6 +24,7 @@ class App extends Component {
             <Route path="/sample-page" component={SamplePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/signup" component={SignupPage} />
+            <Route path="/profile" component={ProfilePage} />
           </div>
         </div>
       </Router>

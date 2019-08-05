@@ -3,7 +3,13 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send('index');
+  res.json('lol');
+});
+
+router.post('/debug', function(req, res, next) {
+  console.log(req.body);
+  console.log(req.body.username, req.body.password)
+  res.json(req.body);
 });
 
 module.exports = router;

@@ -35,6 +35,7 @@ const Navbar = () => {
           <Link to="/"><Button color="inherit">Home</Button></Link>
           <Link to="/sample-page"><Button color="inherit">Sample Page</Button></Link>
           <Link to="/login"><Button color="inherit">Login</Button></Link>
+          <Link to="/profile"><Button color="inherit">Profile</Button></Link>
         </Toolbar>
       </AppBar>
     </div>
