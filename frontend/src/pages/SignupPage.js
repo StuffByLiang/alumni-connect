@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import { Link } from "react-router-dom";
+
+import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
   '@global': {
@@ -39,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const LoginPage = () => {
+const SignupPage = () => {
   const classes = useStyles();
 
   return (
@@ -50,7 +42,7 @@ const LoginPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Log in
+          Sign Up
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -95,8 +87,8 @@ const LoginPage = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link to="/signup">
-                {"Don't have an account? Sign Up"}
+              <Link to="/login">
+                {"Already have an account? Log in!"}
               </Link>
             </Grid>
           </Grid>
@@ -106,4 +98,4 @@ const LoginPage = () => {
   );
 }
 
-export default LoginPage;
+export default SignupPage;

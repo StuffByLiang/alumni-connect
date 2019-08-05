@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
@@ -19,8 +19,10 @@
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "objection": "^1.6.9",
+    "objection-find": "^1.6.5",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "serialize-error": "^4.1.0",
     "sqlite3": "^4.0.9"
   }
 }

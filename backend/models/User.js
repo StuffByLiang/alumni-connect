@@ -1,10 +1,10 @@
 const { Model } = require('objection');
 
-var bcrypt = require("bcryptjs"); // for password hashing
+// var bcrypt = require("bcryptjs"); // for password hashing
 
 /* CREATING OUR USER MODEL */
 class User extends Model {
-  static get TableName() {
+  static get tableName() {
     return 'users'
   }
 
@@ -15,7 +15,7 @@ class User extends Model {
   static get jsonSchema () {
     return {
       type: 'object',
-      required: ['id', 'username', 'password', 'firstName', 'lastName', 'email'],
+      required: ['username', 'password', 'firstname', 'lastname', 'email'],
 
       properties: {
         id: {type: 'integer'},
