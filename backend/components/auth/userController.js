@@ -16,14 +16,14 @@ module.exports = {
         .insert({ username: username, firstname: firstname, lastname: lastname, password: hashedPass, email: email });
 
         return {
-          result: "success",
+          success: true,
           data: newperson
         };
     } catch (err) {
       handleError(err);
       err.message = JSON.stringify(err, Object.getOwnPropertyNames(err));
       return {
-        result: "error",
+        success: false,
         data: serializeError(err)
       };
     }
@@ -40,7 +40,20 @@ module.exports = {
     } catch (err) {
       handleError(err);
       return {
-        result: "error",
+        success: false,
+        data: serializeError(err)
+      };
+    }
+  },
+
+  async findByUserOrEmail(query) {
+    try {
+      const user = await User.query().where({username: query}).orWhere({email: query}).first();
+      return user;
+    } catch (err) {
+      handleError(err);
+      return {
+        success: false,
         data: serializeError(err)
       };
     }
@@ -53,7 +66,7 @@ module.exports = {
     } catch (err) {
       handleError(err);
       return {
-        result: "error",
+        success: false,
         data: serializeError(err)
       };
     }

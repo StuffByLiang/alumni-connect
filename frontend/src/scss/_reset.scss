@@ -11,3 +11,7 @@ a, a:visited {
 a:hover, a:focus {
   text-decoration: underline;
 }
+
+body {
+  word-break: break-all;
+}

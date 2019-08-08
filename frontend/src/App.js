@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import './scss/index.scss'; //sass styling
 
@@ -20,11 +20,13 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <div id="page-body">
-            <Route path="/" component={HomePage} exact />
-            <Route path="/sample-page" component={SamplePage} />
-            <Route path="/login" component={LoginPage} />
-            <Route path="/signup" component={SignupPage} />
-            <Route path="/profile" component={ProfilePage} />
+            <Switch>
+              <Route path="/" component={HomePage} exact />
+              <Route path="/sample-page" component={SamplePage} />
+              <Route path="/login" component={LoginPage} />
+              <Route path="/signup" component={SignupPage} />
+              <Route path="/profile" component={ProfilePage} />
+            </Switch>
           </div>
         </div>
       </Router>

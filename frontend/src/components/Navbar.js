@@ -1,41 +1,37 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
+
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { IconButton, Button, Typography, Toolbar, AppBar } from '@material-ui/core';
 
+import '../scss/navBar.scss';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
 
-const Navbar = () => {
-  const classes = useStyles();
+const Navbar = props => {
+  async function logOut() {
+    await axios.get('/user/logout');
+    props.history.push("/");
+
+  };
 
   return (
-    <div className={classes.root}>
+    <div className="navbar">
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className="menu-button" color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className="title">
             SHAD Connect
           </Typography>
           <Link to="/"><Button color="inherit">Home</Button></Link>
           <Link to="/sample-page"><Button color="inherit">Sample Page</Button></Link>
           <Link to="/login"><Button color="inherit">Login</Button></Link>
           <Link to="/profile"><Button color="inherit">Profile</Button></Link>
+          <Button color="inherit" onClick={() => logOut()}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
@@ -51,4 +47,4 @@ const Navbar = () => {
 //   </nav>
 // );
 
-export default Navbar;
+export default withRouter(Navbar);

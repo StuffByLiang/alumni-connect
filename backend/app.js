@@ -12,11 +12,10 @@ const Knex = require('knex');
 const knexConfig = require('./knexfile');
 
 // authentication related stuff
-var passportInit = require('./components/auth/passportInit.js')
+var passportInit = require('./config/passport')
 
 // Routes
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 const userRouter = require('./routes/user');
 
 // Set up database stuff
@@ -36,7 +35,6 @@ passportInit(app);
 
 // Routes
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/user', userRouter);
 
 

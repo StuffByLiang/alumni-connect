@@ -1,79 +1,83 @@
 import React, { Component } from 'react';
 
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import axios from 'axios';
 
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
+import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-});
+import '../scss/loginPage.scss';
 
 class LoginPage extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      data: {
+        success: null,
+        message: null
+      }
+    }
   }
 
   async handleSubmit(event) {
     event.preventDefault();
 
-    const { username, password } = event.target.elements;
+    const { loginInfo, password } = event.target.elements;
     const data = {
-      username: username.value,
+      loginInfo: loginInfo.value,
       password: password.value
     }
 
-    let result = await axios.post("/user/login", data)
-    console.log(result);
+    this.setState({
+      data: {
+        success: null,
+        message: null
+      }
+    })
+
+    let res = await axios.post("/user/login", data);
+    this.setState({
+      data: res.data
+    });
+    if(res.data.success) {
+      console.log(res.data);
+      this.props.history.push('profile');
+    }
+
   }
 
   render() {
-    const { classes } = this.props;
+    let messageClass = '';
+    if(this.state.data.success !== null) {
+      messageClass = this.state.data.success ? 'success' : 'error'; // either error or success
+    }
+
     return (
-      <Container component="main" maxWidth="sm">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
+      <Container id="loginPage" component="main" maxWidth="sm">
+        <div className="paper">
+          <Avatar className="avatar">
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography className="title" component="h1" variant="h5">
             Log in
           </Typography>
-          <form onSubmit={this.handleSubmit} className={classes.form} noValidate>
+
+          <div className={`message ${messageClass}`}>
+            {this.state.data.message}
+          </div>
+
+          <form onSubmit={this.handleSubmit} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
+              id="loginInfo"
+              label="Username or Email"
+              name="loginInfo"
+              autoComplete="current-loginInfo"
               autoFocus
             />
             <TextField
@@ -96,7 +100,7 @@ class LoginPage extends Component {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className="submit"
             >
               Sign In
             </Button>
@@ -119,4 +123,4 @@ class LoginPage extends Component {
   }
 }
 
-export default withStyles(styles)(LoginPage);
+export default withRouter(LoginPage);

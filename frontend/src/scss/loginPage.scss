@@ -1,0 +1,43 @@
+@import "variables";
+
+#loginPage {
+  .paper {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .avatar {
+    margin: 8px;
+    background-color: $error-color;
+  }
+  form {
+    width: 100%;
+  }
+  .submit {
+    margin: 24px 0 16px;
+  }
+  .message {
+    width: 100%;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid;
+    color: $error-color;
+    padding: 8px;
+    display: none;
+    &.error {
+      border-color: $error-color;
+      color: $error-color;
+      display: block;
+    }
+    &.success {
+      border-color: $success-color;
+      color: $success-color;
+      display: block;
+    }
+  }
+
+  .title {
+    margin-bottom: 8px;
+  }
+}
