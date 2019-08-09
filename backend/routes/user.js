@@ -31,7 +31,13 @@ router.post('/login',
 
         // create jwt token
         const token = jwt.sign({ id: user.username }, JWT_SECRET);
-        info.token = token;
+        info = {
+          ...info,
+          user: {
+            token: token,
+            username: user.username
+          }
+        };
 
         return res.json(info);
       });
@@ -60,7 +66,10 @@ router.get('/get', function(req, res){
 
 router.get('/logout', function(req, res) {
   req.logout();
-  res.json(null);
+  res.json({
+    success: true,
+    message: "successfully logged out",
+  });
 })
 
 module.exports = router;

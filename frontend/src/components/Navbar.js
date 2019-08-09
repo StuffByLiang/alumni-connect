@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
-import axios from 'axios';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -9,14 +9,10 @@ import { IconButton, Button, Typography, Toolbar, AppBar } from '@material-ui/co
 
 import '../scss/navBar.scss';
 
+import LogoutButton from './LogoutButton.js'
 
-const Navbar = props => {
-  async function logOut() {
-    await axios.get('/user/logout');
-    props.history.push("/");
 
-  };
-
+const Navbar = ({loggedIn}) => {
   return (
     <div className="navbar">
       <AppBar position="static">
@@ -29,9 +25,15 @@ const Navbar = props => {
           </Typography>
           <Link to="/"><Button color="inherit">Home</Button></Link>
           <Link to="/sample-page"><Button color="inherit">Sample Page</Button></Link>
-          <Link to="/login"><Button color="inherit">Login</Button></Link>
-          <Link to="/profile"><Button color="inherit">Profile</Button></Link>
-          <Button color="inherit" onClick={() => logOut()}>Logout</Button>
+          {loggedIn ? (
+              <>
+                <Link to="/profile"><Button color="inherit">Profile</Button></Link>
+                <LogoutButton />
+              </>
+            ) : (
+              <Link to="/login"><Button color="inherit">Login</Button></Link>
+            )
+          }
         </Toolbar>
       </AppBar>
     </div>
@@ -47,4 +49,9 @@ const Navbar = props => {
 //   </nav>
 // );
 
-export default withRouter(Navbar);
+function mapStateToProps(state) {
+  const { loggedIn } = state.users;
+  return { loggedIn };
+}
+
+export default compose(withRouter, connect(mapStateToProps))(Navbar);

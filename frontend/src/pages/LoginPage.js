@@ -2,56 +2,75 @@ import React, { Component } from 'react';
 
 import { Link, withRouter } from "react-router-dom";
 
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-import { Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
+// import axios from 'axios';
+
+import { CircularProgress, Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import '../scss/loginPage.scss';
 
+import { userActions } from '../user/userActions.js';
+
 class LoginPage extends Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.state = {
       data: {
         success: null,
         message: null
       }
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async handleSubmit(event) {
-    event.preventDefault();
+  // async handleSubmit(event) {
+  //   event.preventDefault();
+  //
+  //   const { loginInfo, password } = event.target.elements;
+  //   const data = {
+  //     loginInfo: loginInfo.value,
+  //     password: password.value
+  //   }
+  //
+  //   this.setState({
+  //     data: {
+  //       success: null,
+  //       message: null
+  //     }
+  //   })
+  //
+  //   let res = await axios.post("/user/login", data);
+  //   this.setState({
+  //     data: res.data
+  //   });
+  //   if(res.data.success) {
+  //     console.log(res.data);
+  //     this.props.history.push('profile');
+  //   }
+  //
+  // }
 
-    const { loginInfo, password } = event.target.elements;
-    const data = {
-      loginInfo: loginInfo.value,
-      password: password.value
-    }
+  handleSubmit(e) {
+    e.preventDefault();
 
-    this.setState({
-      data: {
-        success: null,
-        message: null
-      }
-    })
+    const { loginInfo, password } = e.target.elements;
 
-    let res = await axios.post("/user/login", data);
-    this.setState({
-      data: res.data
-    });
-    if(res.data.success) {
-      console.log(res.data);
-      this.props.history.push('profile');
-    }
+    this.props.login(loginInfo.value, password.value);
 
   }
 
   render() {
+    console.log(this.props)
+    let { error, loading } = this.props;
+
     let messageClass = '';
-    if(this.state.data.success !== null) {
-      messageClass = this.state.data.success ? 'success' : 'error'; // either error or success
+    if(error !== undefined) {
+      messageClass = error ? 'error' : 'success'; // either error or success
     }
 
     return (
@@ -65,7 +84,7 @@ class LoginPage extends Component {
           </Typography>
 
           <div className={`message ${messageClass}`}>
-            {this.state.data.message}
+            {error}
           </div>
 
           <form onSubmit={this.handleSubmit} noValidate>
@@ -103,6 +122,7 @@ class LoginPage extends Component {
               className="submit"
             >
               Sign In
+              {loading && <CircularProgress className="spinner" />}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -123,4 +143,18 @@ class LoginPage extends Component {
   }
 }
 
-export default withRouter(LoginPage);
+function mapStateToProps(state) {
+
+  let { error, loading } = state.users;
+
+  return {
+    error,
+    loading
+  };
+}
+
+const mapDispatchToProps = {
+  login: userActions.login,
+};
+
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(LoginPage);

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Router, Route, Switch} from 'react-router-dom';
+
+import { history } from './helpers';
 
 import './scss/index.scss'; //sass styling
 
@@ -13,10 +15,20 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProfilePage from './pages/ProfilePage';
 
+console.log(history)
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+    history.listen((location, action) => {
+      console.log("hello")
+      this.setState(this.state);
+    });
+  }
+
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div className="App">
           <Navbar />
           <div id="page-body">
