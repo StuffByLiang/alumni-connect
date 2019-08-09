@@ -17,7 +17,6 @@ async function login(username, password) {
   };
 
   let response = await axios.post('/user/login', data);
-  console.log('Response ', response);
   return handleResponse(response);
 }
 
@@ -29,5 +28,6 @@ async function logout() {
 
 
 function handleResponse(response) {
+  if(!response.data.success) throw response.data.message;
   return response.data;
 }

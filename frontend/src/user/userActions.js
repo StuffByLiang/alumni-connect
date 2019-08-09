@@ -13,17 +13,15 @@ function login(username, password) {
   return async (dispatch) => {
     dispatch(request({ username }));
 
-    let response = await userService.login(username, password);
+    try {
+      let response = await userService.login(username, password);
 
-    // implement a try catch this shit is disgusting
-    if(response.success) {
       localStorage.setItem('user', JSON.stringify(response.user));
       dispatch(success(response));
       history.push('/profile');
-    } else {
-      dispatch(failure(response.message))
+    } catch (error) {
+      dispatch(failure(error))
     }
-
   };
 
   function request(user) { return { type: 'USER_LOGIN_REQUEST', user }}
@@ -35,16 +33,15 @@ function logout() {
   return async (dispatch) => {
     dispatch(request());
 
-    let response = await userService.logout();
-    localStorage.removeItem('user'); //remove the user item from local storage
-
-    // implement a try catch this shit is disgusting
-    if(response.success) {
+    try {
+      let response = await userService.logout();
+      localStorage.removeItem('user'); //remove the user item from local storage
       dispatch(success(response.message));
       history.push('/');
-    } else {
-      dispatch(failure(response.message))
+    } catch (error) {
+      dispatch(failure(error))
     }
+
   };
 
   function request() { return { type: 'USER_LOGOUT_REQUEST' }}
