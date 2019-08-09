@@ -16,7 +16,6 @@ var passportInit = require('./config/passport')
 
 // Routes
 const indexRouter = require('./routes/index');
-const userRouter = require('./routes/user');
 
 // Set up database stuff
 const knex = Knex(knexConfig.development);
@@ -35,7 +34,6 @@ passportInit(app);
 
 // Routes
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 
 
 // catch 404 and forward to error handler

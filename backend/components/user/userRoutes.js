@@ -6,7 +6,7 @@ var jwt = require('jsonwebtoken');
 require('dotenv').config();
 JWT_SECRET = process.env.JWT_SECRET;
 
-const User = require( __base + '/components/auth/userController.js');
+const User = require('./userController');
 
 /* /user route */
 router.post('/', async function(req, res) {

@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const findQuery = require('objection-find');
 const saltRounds = 10;
 
-const User = require( __base + 'models/User');
+const User = require('./userModel');
 
 const serializeError = require('serialize-error');
 const handleError = require( __base + 'components/errors/handle.js');
