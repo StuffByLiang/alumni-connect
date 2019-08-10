@@ -7,7 +7,7 @@ const JWTStrategy = passportJWT.Strategy;
 // found in app.js
 
 const handleError = require(__base + 'components/errors/handle.js');
-const User = require(__base + 'components/user/userController.js')
+const User = require(__base + 'components/user/userModel.js')
 
 module.exports = (app) => {
   app.use(session({

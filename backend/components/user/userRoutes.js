@@ -6,19 +6,13 @@ var jwt = require('jsonwebtoken');
 require('dotenv').config();
 JWT_SECRET = process.env.JWT_SECRET;
 
-const User = require('./userController');
+const User = require('./userModel');
+const userController = require('./userController');
 
 /* /user route */
-router.post('/', async function(req, res) {
-  const { username, firstname, lastname, password, email } = req.body;
-  const result = User.create(username, firstname, lastname, password, email);
-  res.json(result);
-});
+router.post('/', userController.createUser);
 
-router.get('/', async function(req, res) {
-  const result = await User.find(req.query);
-  res.json(result);
-})
+router.get('/', userController.getUsers)
 
 // Endpoint to login
 router.post('/login',
