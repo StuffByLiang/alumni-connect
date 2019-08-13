@@ -22,7 +22,7 @@ class User extends Model {
   static get jsonSchema () {
     return {
       type: 'object',
-      required: ['username', 'password', 'firstname', 'lastname', 'email'],
+      // required: ['username', 'password', 'firstname', 'lastname', 'email'],
 
       properties: {
         id: {type: 'integer'},
@@ -31,6 +31,21 @@ class User extends Model {
         firstname: {type: 'string', minLength: 1, maxLength: 12},
         lastname: {type: 'string', minLength: 1, maxLength: 12},
         email: {type: 'string', minLength: 1, maxLength: 25},
+        location: {type: 'string', minLength: 1, maxLength: 120},
+        age: {type: 'integer'},
+        province: {type: 'string', minLength: 1, maxLength: 30},
+        school: {type: 'string', minLength: 1, maxLength: 256},
+        location: {type: 'string', minLength: 1, maxLength: 256},
+        phone: {type: 'string', minLength: 1, maxLength: 12},
+        website: {type: 'string', minLength: 1, maxLength: 64},
+        description: {type: 'string', minLength: 1, maxLength: 1000},
+        company: {type: 'string', minLength: 1, maxLength: 64},
+        position: {type: 'string', minLength: 1, maxLength: 64},
+        industry: {type: 'string', minLength: 1, maxLength: 64},
+        facebook: {type: 'string', minLength: 1, maxLength: 32},
+        instagram: {type: 'string', minLength: 1, maxLength: 32},
+        snapchat: {type: 'string', minLength: 1, maxLength: 32},
+        image_path: {type: 'string', minLength: 1, maxLength: 256},
       }
     };
   }
@@ -88,6 +103,18 @@ class User extends Model {
     }
   }
 
+  static async update(where, query) {
+    // Use Case:
+    // User.update({ id: 1 }, {element: value})
+    try {
+      console.log(query)
+
+      const result = await User.query().update(query).where(where);
+      return result;
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
 }
 
 module.exports = User;

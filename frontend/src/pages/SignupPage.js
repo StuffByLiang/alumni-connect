@@ -1,101 +1,160 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+
+// import axios from 'axios';
+
+import { Paper, CircularProgress, Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-  '@global': {
-    body: {
-      backgroundColor: theme.palette.common.white,
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import '../scss/loginPage.scss';
 
-const SignupPage = () => {
-  const classes = useStyles();
+import { userActions } from '../user/userActions.js';
 
-  return (
-    <Container component="main" maxWidth="sm">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to="#">
-                Forgot password?
-              </Link>
+class SignupPage extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      data: {
+        success: null,
+        message: null
+      }
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  // async handleSubmit(event) {
+  //   event.preventDefault();
+  //
+  //   const { loginInfo, password } = event.target.elements;
+  //   const data = {
+  //     loginInfo: loginInfo.value,
+  //     password: password.value
+  //   }
+  //
+  //   this.setState({
+  //     data: {
+  //       success: null,
+  //       message: null
+  //     }
+  //   })
+  //
+  //   let res = await axios.post("/user/login", data);
+  //   this.setState({
+  //     data: res.data
+  //   });
+  //   if(res.data.success) {
+  //     console.log(res.data);
+  //     this.props.history.push('profile');
+  //   }
+  //
+  // }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const { loginInfo, password } = e.target.elements;
+
+    this.props.login(loginInfo.value, password.value);
+
+  }
+
+  render() {
+    console.log(this.props)
+    let { error, loading } = this.props;
+
+    let messageClass = '';
+    if(error !== undefined) {
+      messageClass = error ? 'error' : 'success'; // either error or success
+    }
+
+    return (
+      <Container id="loginPage" component="main" maxWidth="sm">
+        <Paper className="paper">
+          <Avatar className="avatar">
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography className="title" component="h1" variant="h5">
+            Register!
+          </Typography>
+
+          <div className={`message ${messageClass}`}>
+            {error}
+          </div>
+
+          <form onSubmit={this.handleSubmit} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="loginInfo"
+              label="Username or Email"
+              name="loginInfo"
+              autoComplete="current-loginInfo"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className="submit"
+            >
+              Sign In
+              {loading && <CircularProgress className="spinner" />}
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link to="#">
+                  Forgot password?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link to="/login">
+                  {"Already have an account? Log In!"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link to="/login">
-                {"Already have an account? Log in!"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
-  );
+          </form>
+        </Paper>
+      </Container>
+    );
+  }
 }
 
-export default SignupPage;
+function mapStateToProps(state) {
+
+  let { error, loading } = state.users;
+
+  return {
+    error,
+    loading
+  };
+}
+
+const mapDispatchToProps = {
+  login: userActions.login,
+};
+
+export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(SignupPage);

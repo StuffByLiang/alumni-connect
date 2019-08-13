@@ -50,28 +50,32 @@ module.exports = (app) => {
   ));
 
   const opts = {
-    jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderWithScheme('JWT'),
+    jwtFromRequest: passportJWT.ExtractJwt.fromBodyField('token'),
     secretOrKey: JWT_SECRET,
+    passReqToCallback: true,
   };
 
   passport.use(
     'jwt',
     new JWTStrategy(opts,
-      async (jwt_payload, done) => {
+      async (req, jwt_payload, done) => {
         try {
           const user = await User.findOne({
-            username: jwt_payload.username,
+            username: jwt_payload.id,
           });
           if(!user)
             done(null, false, {
               success: false,
               message: 'User Not Found'
             });
-          else
+          else {
+            // some security measures
+            delete user.password;
             done(null, user, {
               success: true,
               message: 'User Found'
             });
+          }
         } catch (err) {
           handleError(err);
         }

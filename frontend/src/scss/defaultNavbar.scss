@@ -1,4 +1,7 @@
-.navbar {
+@import "variables";
+
+.default-navbar {
+  margin-bottom: 16px;
   flex-grow: 1;
 
   .menu-button {
@@ -9,7 +12,8 @@
     flex-grow: 1
   }
 
-  a {
+  a, button {
     color: white;
+    text-decoration: none;
   }
 }

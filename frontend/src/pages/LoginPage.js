@@ -7,7 +7,7 @@ import { compose } from 'redux';
 
 // import axios from 'axios';
 
-import { CircularProgress, Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
+import { Paper, CircularProgress, Avatar, Button, TextField, FormControlLabel, Checkbox, Grid, Typography, Container} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import '../scss/loginPage.scss';
@@ -75,7 +75,7 @@ class LoginPage extends Component {
 
     return (
       <Container id="loginPage" component="main" maxWidth="sm">
-        <div className="paper">
+        <Paper className="paper">
           <Avatar className="avatar">
             <LockOutlinedIcon />
           </Avatar>
@@ -137,7 +137,7 @@ class LoginPage extends Component {
               </Grid>
             </Grid>
           </form>
-        </div>
+        </Paper>
       </Container>
     );
   }

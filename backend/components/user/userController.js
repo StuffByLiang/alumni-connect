@@ -33,7 +33,33 @@ module.exports = {
         data: err
       })
     }
-  }
+  },
+
+  async updateUser(req, res) {
+    try {
+      const { query } = req.body;
+
+      const where = {
+        id: req.user.id
+      };
+
+      const result = await userService.updateUser(where, query);
+
+      res.json({
+        success: true,
+        data: result,
+      })
+    } catch (err) {
+      res.json({
+        success: false,
+        data: err
+      })
+    }
+  },
+
+  async uploadProfilePicture() {
+
+  },
   //
   // async find(query) {
   //   // find multiple users

@@ -27,7 +27,7 @@ export function users(state = initialState, action) {
       return {};
 
     default:
-      console.log(`default action '${action.type}'. Is this a mistake?`)
+      // console.log(`default action '${action.type}'. Is this a mistake?`)
       return state
   }
 }

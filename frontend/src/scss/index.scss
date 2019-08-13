@@ -1,9 +1,40 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 @import "variables";
 @import "reset";
 
+@import "./components/index";
+
 h1, h2 {
-  color: $primaryColor;
+  color: $primary-color;
+}
+
+body, html {
+  background-color: #f2f2f2;
+  color: #666;
+  font-family: $fonts;
+}
+
+.MuiPaper-elevation1.paper {
+    box-shadow: 0px 1px 15px 0px rgba(0,0,0,0.1);
+    color: #666;
+    padding: 16px;
+}
+
+#page-body {
+  width: calc(100% - #{$drawer-width});
+  float: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.MuiSelect-root {
+  text-align: left;
+}
+
+.mt-20 {
+  margin-top: 20px!important;
 }

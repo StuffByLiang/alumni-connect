@@ -5,15 +5,22 @@ const User = require('./userModel');
 const handleError = require( __base + 'components/errors/handle.js');
 
 module.exports = {
-  createUser(username, firstname, lastname, password, email) {
+  async createUser(username, firstname, lastname, password, email) {
     try {
-      User.create(username, firstname, lastname, password, email);
+      const newPerson = await User.create(username, firstname, lastname, password, email);
       return newPerson;
     } catch (err) {
       throw err;
     }
   },
-
+  async updateUser(where, query) {
+    try {
+      const result = await User.update(where, query);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 
 
 }

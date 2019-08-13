@@ -1,8 +1,3 @@
-header a {
-  text-decoration: inherit;
-  color: inherit;
-}
-
 a, a:visited {
   color: #3f51b5;
   text-decoration: inherit;
@@ -14,4 +9,9 @@ a:hover, a:focus {
 
 body {
   word-break: break-all;
+}
+
+.reset-link {
+  color: inherit;
+  text-decoration: none!important;
 }

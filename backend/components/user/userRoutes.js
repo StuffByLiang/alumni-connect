@@ -9,10 +9,15 @@ JWT_SECRET = process.env.JWT_SECRET;
 const User = require('./userModel');
 const userController = require('./userController');
 
+const isAuthenticated = require(__base + 'middleware/isAuthenticated')
+
 /* /user route */
-router.post('/', userController.createUser);
+router.post('/create', isAuthenticated, userController.createUser);
 
 router.get('/', userController.getUsers)
+
+router.post('/update', isAuthenticated, userController.updateUser);
+
 
 // Endpoint to login
 router.post('/login',
@@ -42,13 +47,13 @@ router.post('/login/jwt',
   function(req, res, next) {
     passport.authenticate('jwt', function(err, user, info) {
       if (err) { return next(err); }
-      if(info.result == 'error') {
-        res.json(info);
-      } else {
-        // success
+      if (!user) { return res.json(info); }
+      req.logIn(user, function(err) {
+        if (err) { return next(err); }
+
         info.user = user;
-        res.json(info);
-      }
+        return res.json(info);
+      });
     })(req, res, next);
 });
 

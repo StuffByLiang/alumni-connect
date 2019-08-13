@@ -1,0 +1,35 @@
+#image-input {
+  .image-label {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: block;
+    overflow: hidden;
+    margin: 0 auto; //center
+
+    .image-container {
+      width: 100%;
+      height: 100%;
+      background-color: #0000000d;
+      background-size: cover;
+      background-position: center center;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+
+      .image-plus {
+        text-align: center;
+        width: 100%;
+
+        .has-image {
+          visibility: hidden;
+          font-size: 42px;
+        }
+      }
+
+      &:hover .has-image {
+        visibility: visible;
+      }
+    }
+  }
+}

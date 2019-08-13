@@ -18,7 +18,7 @@ function login(username, password) {
 
       localStorage.setItem('user', JSON.stringify(response.user));
       dispatch(success(response));
-      history.push('/profile');
+      history.push('/dashboard/profile');
     } catch (error) {
       dispatch(failure(error))
     }
