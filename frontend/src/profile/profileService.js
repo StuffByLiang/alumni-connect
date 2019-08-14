@@ -2,7 +2,6 @@ import axios from 'axios';
 
 export const profileService = {
     saveChanges,
-    getProfile
 };
 
 async function saveChanges(info, file) {
@@ -26,13 +25,6 @@ async function saveChanges(info, file) {
   return handleResponse(response);
 }
 
-async function getProfile(info) {
-  let token = JSON.parse(localStorage.getItem('user')).token;
-  let response = await axios.post('/user/login/jwt', {
-    token: token,
-  });
-  return handleResponse(response);
-}
 
 function handleResponse(response) {
   if(!response.data.success) throw response.data.message;

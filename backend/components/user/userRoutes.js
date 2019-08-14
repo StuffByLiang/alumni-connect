@@ -60,13 +60,8 @@ router.post('/login',
 
         // create jwt token
         const token = jwt.sign({ id: user.username }, JWT_SECRET);
-        info = {
-          ...info,
-          user: {
-            token: token,
-            username: user.username
-          }
-        };
+        user.token = token;
+        info.user = user;
 
         return res.json(info);
       });

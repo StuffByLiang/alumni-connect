@@ -7,7 +7,6 @@ const initialState = {
     image: {
     }
   },
-  currentUserData: null,
 };
 
 export function profile(state = initialState, action) {
@@ -53,7 +52,9 @@ export function profile(state = initialState, action) {
       return {
         ...state,
         changes: {
-
+          image: {
+            
+          }
         },
         saved: true,
         saving: false
@@ -64,15 +65,6 @@ export function profile(state = initialState, action) {
         saved: false,
         saving: false,
       };
-    case profileConstants.GET_PROFILE_REQUEST:
-      return state;
-    case profileConstants.GET_PROFILE_SUCCESS:
-      return {
-        ...state,
-        currentUserData: action.data.user
-      };
-    case profileConstants.GET_PROFILE_FAILURE:
-      return state;
 
     default:
       // console.log(`default action '${action.type}'. Is this a mistake?`)

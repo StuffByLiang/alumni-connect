@@ -42,7 +42,7 @@ class User extends Model {
         company: {type: 'string', minLength: 1, maxLength: 64},
         position: {type: 'string', minLength: 1, maxLength: 64},
         industry: {type: 'string', minLength: 1, maxLength: 64},
-        facebook: {type: 'string', minLength: 1, maxLength: 32},
+        facebook: {type: 'string', minLength: 1, maxLength: 256},
         instagram: {type: 'string', minLength: 1, maxLength: 32},
         snapchat: {type: 'string', minLength: 1, maxLength: 32},
         image_path: {type: 'string', minLength: 1, maxLength: 256},

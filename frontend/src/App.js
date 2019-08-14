@@ -13,7 +13,7 @@ import './scss/index.scss'; //sass styling
 import Dashboard from './layouts/Dashboard';
 import Default from './layouts/Default';
 
-import { profileActions } from './profile/profileActions';
+import { userActions } from './user/userActions';
 
 class App extends Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class App extends Component {
   }
 
   componentWillMount() {
-    const { loggedIn, currentUserData, getProfile } = this.props;
-    if(loggedIn & currentUserData === null) {
+    const { loggedIn, userData, getProfile } = this.props;
+    if(loggedIn && userData === null) {
       console.log('grabbing profile...');
       getProfile();
     }
@@ -64,16 +64,16 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  let { currentUserData } = state.profile;
-  let { loggedIn } = state.users;
+  console.log(state)
+  let { loggedIn, data } = state.user;
   return {
-    currentUserData,
+    userData: data,
     loggedIn,
   };
 }
 
 const mapDispatchToProps = {
-  getProfile: profileActions.getProfile,
+  getProfile: userActions.getProfile,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

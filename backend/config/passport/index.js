@@ -32,7 +32,11 @@ module.exports = (app) => {
         });
         var result = await User.comparePassword(password, user.password);
         if(result) {
-          console.log(user.username + " logged in")
+          console.log(user.username + " logged in");
+          
+          // some security measures
+          delete user.password;
+
           return done(null, user, {
             success: true,
             message: 'Successfully Logged in'

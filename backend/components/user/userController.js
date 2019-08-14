@@ -40,14 +40,16 @@ module.exports = {
       let query={};
 
       for(let index in req.body) {
-        console.log(index)
         query[index] = req.body[index];
       }
 
-      if(query.image) delete query.image;
+      if(query.image){ //exists
+        delete query.image;
+      }
 
-      // what the fuck do i do with req.file
-      query.image_path = req.file.filename;
+      if(req.file){ //exists
+        query.image_path = req.file.filename;
+      }
 
       const where = {
         id: req.user.id
