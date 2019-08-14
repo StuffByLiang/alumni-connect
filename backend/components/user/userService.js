@@ -20,6 +20,9 @@ module.exports = {
     } catch (err) {
       throw err;
     }
+  },
+  async uploadProfilePicture() {
+    
   }
 
 

@@ -19,7 +19,7 @@ class PlaceInput extends Component {
     this.autocomplete = new google.maps.places.Autocomplete(this.autocompleteInput.current,
         {
           types: ["geocode"],
-          componentRestrictions: {country: 'ca'}
+          // componentRestrictions: {country: 'ca'}
         }
       );
 

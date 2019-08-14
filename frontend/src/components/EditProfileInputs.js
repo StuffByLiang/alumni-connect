@@ -86,7 +86,7 @@ class EditProfileInputs extends Component {
               <InputLabel htmlFor="province">Province</InputLabel>
                 <Select
                   defaultValue={province}
-                  value={this.props.changes.province ? this.props.changes.province : ""}
+                  value={this.props.changes.province ? this.props.changes.province : province}
                   onChange={this.onChange}
                   inputProps={{
                     name: 'province',

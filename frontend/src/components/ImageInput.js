@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
+import { connect } from 'react-redux';
+
 import { Icon } from '@material-ui/core';
 
+import { profileActions } from  '../profile/profileActions';
 
-export default class ImageInput extends Component {
+
+class ImageInput extends Component {
   constructor(props) {
     super(props);
-    this.state = {file: '',imagePreviewUrl: ''};
   }
 
   handleImageChange(e){
@@ -16,22 +19,32 @@ export default class ImageInput extends Component {
     let file = e.target.files[0];
 
     reader.onloadend = () => {
-      this.setState({
-        file: file,
-        imagePreviewUrl: reader.result
-      });
-    }
+      this.props.handleImageChange(file, reader.result);
+    };
 
-    if(file) //exists
+    if(file) {
       reader.readAsDataURL(file);
+
+      const data = new FormData()
+      data.append('file', file);
+
+      for (var pair of data.entries()) {
+          console.log(pair[0]);
+          console.log(pair[1])
+      }
+    }
   }
 
   render() {
-    let {imagePreviewUrl} = this.state;
+    let {image, currentImage} = this.props;
     let iconClass;
 
-    if(imagePreviewUrl) { //exists
+    if(image || currentImage) { //exists
       iconClass = "has-image";
+    }
+
+    if(currentImage && !image) {
+      image = `/profile-images/${currentImage}`;
     }
 
     return (
@@ -44,11 +57,28 @@ export default class ImageInput extends Component {
           onChange={(e)=>this.handleImageChange(e)}
         />
         <label className="image-label" htmlFor="raised-button-file">
-          <div className="image-container" style={{backgroundImage: `url("${imagePreviewUrl}")` }}>
-            <div className="image-plus"><Icon className={iconClass} style={{color: imagePreviewUrl ? "#ffffff90" : "#00000080"}}>add_circle_outline</Icon></div>
+          <div className="image-container" style={{backgroundImage: `url("${image}")` }}>
+            <div className="image-plus"><Icon className={iconClass} style={{color: image ? "#ffffff90" : "#00000080"}}>add_circle_outline</Icon></div>
           </div>
         </label>
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  let { file, data } = state.profile.changes.image;
+  let { image_path } = state.profile.currentUserData;
+
+  return {
+    file,
+    image: data,
+    currentImage: image_path,
+  };
+}
+
+const mapDispatchToProps = {
+  handleImageChange: profileActions.handleImageChange,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ImageInput);

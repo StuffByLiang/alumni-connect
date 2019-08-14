@@ -4,9 +4,10 @@ const initialState = {
   saving: false,
   saved: false,
   changes: {
-
+    image: {
+    }
   },
-  currentUserData: null
+  currentUserData: null,
 };
 
 export function profile(state = initialState, action) {
@@ -30,6 +31,18 @@ export function profile(state = initialState, action) {
       else
         return state
 
+    case profileConstants.PROFILE_IMAGE_CHANGE:
+      return {
+        ...state,
+        changes: {
+          ...state.changes,
+          image: {
+            file: action.file,
+            data: action.image
+          }
+        }
+      }
+
     case profileConstants.PROFILE_SAVE_REQUEST:
       return {
         ...state,
@@ -39,6 +52,9 @@ export function profile(state = initialState, action) {
     case profileConstants.PROFILE_SAVE_SUCCESS:
       return {
         ...state,
+        changes: {
+
+        },
         saved: true,
         saving: false
       };

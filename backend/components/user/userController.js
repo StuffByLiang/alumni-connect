@@ -37,7 +37,17 @@ module.exports = {
 
   async updateUser(req, res) {
     try {
-      const { query } = req.body;
+      let query={};
+
+      for(let index in req.body) {
+        console.log(index)
+        query[index] = req.body[index];
+      }
+
+      if(query.image) delete query.image;
+
+      // what the fuck do i do with req.file
+      query.image_path = req.file.filename;
 
       const where = {
         id: req.user.id
@@ -55,10 +65,6 @@ module.exports = {
         data: err
       })
     }
-  },
-
-  async uploadProfilePicture() {
-
   },
   //
   // async find(query) {

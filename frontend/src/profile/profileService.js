@@ -5,11 +5,24 @@ export const profileService = {
     getProfile
 };
 
-async function saveChanges(info) {
+async function saveChanges(info, file) {
+  let data = new FormData();
+  if(file) data.append('image', file, file.name)
 
-  let response = await axios.post('/user/update', {
-    query: info,
-  });
+  for(let category in info) {
+    data.append(category, info[category]);
+  }
+
+  for (var pair of data.entries()) {
+    console.log(pair[0]);
+    console.log(pair[1])
+  }
+
+  let response = await axios.post('/user/update', data, {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+    });
   return handleResponse(response);
 }
 

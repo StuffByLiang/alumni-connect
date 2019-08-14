@@ -30,6 +30,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(err, req, res, next) {
+  console.log(err);
+  next(err);
+});
+
 passportInit(app);
 
 // Routes

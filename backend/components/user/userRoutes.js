@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
+var path = require('path');
+
 
 require('dotenv').config();
 JWT_SECRET = process.env.JWT_SECRET;
@@ -11,13 +13,41 @@ const userController = require('./userController');
 
 const isAuthenticated = require(__base + 'middleware/isAuthenticated')
 
+// setting up multer
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__base + '../frontend/public/profile-images/'))
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.user.id + '.' + file.originalname.split('.')[1])
+  }
+});
+
+var uploadImage = multer({
+  storage: storage,
+  onError : function(err, next) {
+    console.log('error', err);
+    next(err);
+  }
+}).single('image');
+
 /* /user route */
 router.post('/create', isAuthenticated, userController.createUser);
 
 router.get('/', userController.getUsers)
 
-router.post('/update', isAuthenticated, userController.updateUser);
-
+router.post('/update', isAuthenticated, (req, res) => {
+  uploadImage(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        console.log(err);
+      } else if (err) {
+        console.log(err);
+      }
+      // Everything went fine.
+      userController.updateUser(req, res);
+    })
+  });
 
 // Endpoint to login
 router.post('/login',
@@ -61,7 +91,6 @@ router.post('/login/jwt',
 router.get('/get', function(req, res){
   res.json(req.user);
 })
-
 
 router.get('/logout', function(req, res) {
   req.logout();
