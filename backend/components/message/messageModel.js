@@ -2,14 +2,15 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const { Model } = require('objection');
+
 const findQuery = require('objection-find');
+
 const handleError = require( __base + 'components/errors/handle.js');
-const BaseModel = require(__base + 'helpers/baseModel.js');
 
 // var bcrypt = require("bcryptjs"); // for password hashing
 
 /* CREATING OUR USER MODEL */
-class User extends BaseModel {
+class User extends Model {
   static get tableName() {
     return 'users'
   }
@@ -63,6 +64,18 @@ class User extends BaseModel {
     }
   }
 
+  static async find(query) {
+    // find multiple users
+    try {
+      const users = await findQuery(this)
+        .allow(['id', 'firstname', 'lastname', 'email'])
+        .build(query);
+      return users;
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
+
   static async findByUserOrEmail(query) {
     try {
       const user = await this.query().where({username: query}).orWhere({email: query}).first();
@@ -72,9 +85,31 @@ class User extends BaseModel {
     }
   }
 
+  static async findOne(query) {
+    try {
+      const user = await User.query().findOne(query)
+      return user;
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
+
   static async comparePassword(pass, hash) {
     try {
       const result = await bcrypt.compare(pass, hash);
+      return result;
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
+
+  static async update(where, query) {
+    // Use Case:
+    // User.update({ id: 1 }, {element: value})
+    try {
+      console.log(query)
+
+      const result = await User.query().update(query).where(where);
       return result;
     } catch (err) {
       throw handleError(err);
