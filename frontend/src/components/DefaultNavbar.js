@@ -52,7 +52,7 @@ const DefaultNavbar = ({loggedIn}) => {
 // );
 
 function mapStateToProps(state) {
-  const { loggedIn } = state.users;
+  const { loggedIn } = state.user;
   return { loggedIn };
 }
 

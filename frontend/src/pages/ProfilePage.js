@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 
 // import { Link } from "react-router-dom";
 
-import { Typography, Paper, Container, Grid } from '@material-ui/core';
+import { connect } from 'react-redux';
+
+import { Typography, Paper, Container, Grid, Box } from '@material-ui/core';
 
 class ProfilePage extends Component {
   constructor() {
@@ -20,20 +22,103 @@ class ProfilePage extends Component {
   }
 
   render() {
-    // const { classes } = this.props;
+    const {
+      age,
+      company,
+      description,
+      email,
+      facebook,
+      firstname,
+      image_path,
+      industry,
+      instagram,
+      lastname,
+      location,
+      phone,
+      position,
+      province,
+      school,
+      snapchat,
+      website,
+    } = this.props.userData;
+
+    let image = "";
+    if(image_path) {
+      image = `/profile-images/${image_path}`;
+    }
+
+
     return (
       <Container component="main" maxWidth="lg">
         <Grid container spacing={2}>
-          <Grid item md={4} >
+          <Grid item md={8} >
             <Paper className="paper">
               <Typography className="title" component="h2">
-              Your Profile!
+                Your Profile!
+              </Typography>
+              <Box display="flex" p={1} flexDirection="row">
+                <div className="image-label mr-20">
+                  <div className="image-container" style={{backgroundImage: `url("${image}")` }}>
+                  </div>
+                </div>
+                <div>
+                  <Typography className="" component="p">
+                    {firstname + ' ' + lastname}
+                  </Typography>
+                  <Typography className="" component="p">
+                    {position + ' at ' + company}
+                  </Typography>
+                  <Typography className="" component="p">
+                    {industry}
+                  </Typography>
+                  <Typography className="" component="p">
+                    School: {school}
+                  </Typography>
+                  <Typography className="" component="p">
+                    {province}
+                  </Typography>
+                  <a href={website} target="_blank">{website}</a>
+                </div>
+              </Box>
+            </Paper>
+            <Paper className="paper mt-20">
+              <Typography className="title" component="h2">
+                Summary
+              </Typography>
+              <Typography className="pre" component="p">
+                {description}
+              </Typography>
+            </Paper>
+            <Paper className="paper mt-20">
+              <Typography className="title" component="h2">
+                Contact Info
+              </Typography>
+              <Typography className="pre" component="p">
+                Phone: {phone}
+              </Typography>
+              <Typography className="pre" component="p">
+                Email: {email}
+              </Typography>
+              <Typography className="pre" component="p">
+                Facebook: <a href={facebook} target="_blank">{firstname} {lastname}</a>
+              </Typography>
+              <Typography className="pre" component="p">
+                Instagram: {instagram}
+              </Typography>
+              <Typography className="pre" component="p">
+                Snapchat: {snapchat}
               </Typography>
             </Paper>
           </Grid>
-          <Grid item md={8} >
+          <Grid item md={4} >
             <Paper className="paper">
-              {JSON.stringify(this.state.user)}
+              <Grid container spacing={2} >
+                <Grid item md={12}>
+                  <Typography component="body">
+                  {JSON.stringify(this.state.user)}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>
@@ -42,4 +127,12 @@ class ProfilePage extends Component {
   }
 }
 
-export default ProfilePage;
+function mapStateToProps(state) {
+  let { data } = state.user;
+  if(!data) data = {};
+  return {
+    userData: data,
+  }
+}
+
+export default connect(mapStateToProps)(ProfilePage);

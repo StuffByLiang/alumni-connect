@@ -8,10 +8,6 @@ import { profileActions } from  '../profile/profileActions';
 
 
 class ImageInput extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleImageChange(e){
     e.preventDefault();
 
@@ -56,7 +52,7 @@ class ImageInput extends Component {
           type="file"
           onChange={(e)=>this.handleImageChange(e)}
         />
-        <label className="image-label" htmlFor="raised-button-file">
+        <label className="image-label center" htmlFor="raised-button-file">
           <div className="image-container" style={{backgroundImage: `url("${image}")` }}>
             <div className="image-plus"><Icon className={iconClass} style={{color: image ? "#ffffff90" : "#00000080"}}>add_circle_outline</Icon></div>
           </div>
@@ -68,7 +64,7 @@ class ImageInput extends Component {
 
 function mapStateToProps(state) {
   let { file, data } = state.profile.changes.image;
-  let { image_path } = state.profile.currentUserData;
+  let { image_path } = state.user.data;
 
   return {
     file,

@@ -40,11 +40,11 @@ class PlaceInput extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    location: state.profile.currentUserData.location
-  };
-}
+// function mapStateToProps(state) {
+//   return {
+//     location: state.profile.currentUserData.location
+//   };
+// }
 
 const mapDispatchToProps = {
   handleChange: profileActions.handleChange

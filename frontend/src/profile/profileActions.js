@@ -4,7 +4,6 @@ import { profileConstants } from './profileConstants.js';
 export const profileActions = {
     handleChange,
     saveChanges,
-    getProfile,
     handleImageChange,
 };
 
@@ -44,22 +43,4 @@ function handleImageChange(file, image) {
     file: file,
     image: image
   })
-};
-
-function getProfile() {
-  return async (dispatch) => {
-    dispatch(request());
-
-    try {
-      let response = await profileService.getProfile();
-
-      dispatch(success(response));
-    } catch (error) {
-      dispatch(failure(error))
-    }
-  };
-
-  function request() { return { type: profileConstants.GET_PROFILE_REQUEST }}
-  function success(data) { return { type: profileConstants.GET_PROFILE_SUCCESS, data }}
-  function failure(error) { return { type: profileConstants.GET_PROFILE_FAILURE, error }}
 };

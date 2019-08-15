@@ -145,7 +145,7 @@ class LoginPage extends Component {
 
 function mapStateToProps(state) {
 
-  let { error, loading } = state.users;
+  let { error, loading } = state.user;
 
   return {
     error,

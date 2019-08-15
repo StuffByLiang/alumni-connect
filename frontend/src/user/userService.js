@@ -3,6 +3,7 @@ import axios from 'axios';
 export const userService = {
     login,
     logout,
+    getProfile,
     // register,
     // getAll,
     // getById,
@@ -25,7 +26,13 @@ async function logout() {
   return handleResponse(response);
 }
 
-
+async function getProfile(info) {
+  let token = JSON.parse(localStorage.getItem('user')).token;
+  let response = await axios.post('/user/login/jwt', {
+    token: token,
+  });
+  return handleResponse(response);
+}
 
 function handleResponse(response) {
   if(!response.data.success) throw response.data.message;

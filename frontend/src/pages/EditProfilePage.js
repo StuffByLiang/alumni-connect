@@ -26,7 +26,7 @@ class EditProfilePage extends Component {
               <Typography className="title" component="h2">
               Your Profile!
               </Typography>
-              {this.props.currentUserData &&
+              {this.props.data&&
                 <EditProfileInputs />
               }
             </Paper>
@@ -39,7 +39,7 @@ class EditProfilePage extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentUserData: state.profile.currentUserData
+    data: state.user.data
   };
 }
 

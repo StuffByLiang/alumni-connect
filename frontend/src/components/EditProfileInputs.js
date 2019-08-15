@@ -45,7 +45,7 @@ class EditProfileInputs extends Component {
     // if anything is changed, change them in display
     for(var i in this.props.changes) {
       console.log(i);
-      this.props.currentUserData[i] = this.props.changes[i];
+      this.props.userData[i] = this.props.changes[i];
     }
     const {
       age,
@@ -65,7 +65,7 @@ class EditProfileInputs extends Component {
       school,
       snapchat,
       website,
-    } = this.props.currentUserData;
+    } = this.props.userData;
     return (
       <>
         <ImageInput defaultValue={image_path} />
@@ -85,7 +85,6 @@ class EditProfileInputs extends Component {
             <FormControl fullWidth>
               <InputLabel htmlFor="province">Province</InputLabel>
                 <Select
-                  defaultValue={province}
                   value={this.props.changes.province ? this.props.changes.province : province}
                   onChange={this.onChange}
                   inputProps={{
@@ -174,7 +173,7 @@ class EditProfileInputs extends Component {
 function mapStateToProps(state) {
   return {
     changes: state.profile.changes,
-    currentUserData: state.profile.currentUserData === null ? {} : state.profile.currentUserData
+    userData: state.user.data === null ? {} : state.user.data,
   };
 }
 
