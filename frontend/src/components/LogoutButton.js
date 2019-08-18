@@ -6,7 +6,7 @@ import { compose } from 'redux';
 
 import { Button } from '@material-ui/core'
 
-import { userActions } from '../user/userActions.js';
+import { userActions } from 'modules/user/userActions.js';
 
 const LogoutButton = ({ logout }) => {
   return(

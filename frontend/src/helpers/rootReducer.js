@@ -1,12 +1,16 @@
 import { combineReducers } from 'redux';
 
-import { user } from '../user/userReducer.js';
-import { registration } from '../user/registrationReducer.js';
-import { profile } from '../profile/profileReducer.js';
+import { user } from 'modules/user/userReducer.js';
+import { registration } from 'modules/user/registrationReducer.js';
+import { profile } from 'modules/profile//profileReducer.js';
+import { post } from 'modules/post/postReducer.js';
+import { comment } from 'modules/comment/commentReducer.js';
 
 
 export const rootReducer = combineReducers({
   user,
   registration,
-  profile
+  profile,
+  post,
+  comment
 });

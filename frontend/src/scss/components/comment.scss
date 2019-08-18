@@ -1,0 +1,51 @@
+.comment-input-container {
+  margin: 12px 0;
+
+  .small.MuiTextField-root {
+    .MuiInputLabel-root {
+      font-size: 0.8rem;
+    }
+
+    .MuiInputBase-root{
+      font-size: 0.8rem;
+      line-height: 0.8rem;
+    }
+
+    .MuiInputBase-input{
+      line-height: 0.8rem;
+      height: 0.8rem;
+    }
+  }
+
+  .comment-input {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.comment-container {
+  font-size: 0.9em;
+  margin-top: 20px;
+
+  a.user-name {
+    font-weight: 500;
+    font-size:1.05em;
+
+    color: #333;
+  }
+
+  .user-title {
+    margin-top: 3px;
+    color: #999;
+    font-size: 0.85em;
+  }
+
+  .user-time {
+    margin-top: 3px;
+    font-size: 0.85em;
+    color: #999;
+  }
+
+  .comment-body {
+    margin-top: 10px;
+  }
+}

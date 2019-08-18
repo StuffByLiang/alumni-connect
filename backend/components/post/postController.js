@@ -1,18 +1,18 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
-const User = require('./userModel');
-const userService = require('./userService');
+const Post = require('./postModel');
 
 module.exports = {
-  async createUser(req, res) {
+  async create(req, res) {
     try {
-      const { username, firstname, lastname, password, email } = req.body;
-      const newPerson = userService.createUser(username, firstname, lastname, password, email);
+      let query = {
+        user_id: req.user.id,
+        group_id: parseInt(req.body.groupId),
+        post: req.body.post
+      }
+      const data = await Post.create(query);
 
       res.json({
         success: true,
-        data: newperson
+        data
       });
     } catch (err) {
       res.json({
@@ -22,11 +22,14 @@ module.exports = {
     }
   },
 
-  async getUsers(req, res) {
+  async get(req, res) {
     try {
-      const result = await User.find(req.query);
+      const result = await Post.find(req.query);
 
-      res.json(result)
+      res.json({
+        success: true,
+        posts: result
+      })
     } catch (err) {
       res.json({
         success: false,
@@ -35,25 +38,14 @@ module.exports = {
     }
   },
 
-  async updateUser(req, res) {
+  async update(req, res) {
     try {
-      let query={};
-
-      for(let index in req.body) {
-        console.log(index)
-        query[index] = req.body[index];
-      }
-
-      if(query.image) delete query.image;
-
-      // what the fuck do i do with req.file
-      query.image_path = req.file.filename;
-
+      let query=req.body;
       const where = {
-        id: req.user.id
+        id: req.params.id
       };
 
-      const result = await userService.updateUser(where, query);
+      const result = await Post.update(where, query);
 
       res.json({
         success: true,
@@ -66,56 +58,4 @@ module.exports = {
       })
     }
   },
-  //
-  // async find(query) {
-  //   // find multiple users
-  //   try {
-  //     const users = await findQuery(User)
-  //       .allow(['id', 'firstname', 'lastname', 'email'])
-  //       .build(query);
-  //
-  //       return users;
-  //   } catch (err) {
-  //     return {
-  //       success: false,
-  //       data: err
-  //     };
-  //   }
-  // },
-  //
-  // async findByUserOrEmail(query) {
-  //   try {
-  //     const user = await User.query().where({username: query}).orWhere({email: query}).first();
-  //     return user;
-  //   } catch (err) {
-  //     handleError(err);
-  //     return {
-  //       success: false,
-  //       data: serializeError(err)
-  //     };
-  //   }
-  // },
-  //
-  // async findOne(query) {
-  //   try {
-  //     const user = await User.query().findOne(query)
-  //     return user;
-  //   } catch (err) {
-  //     handleError(err);
-  //     return {
-  //       success: false,
-  //       data: serializeError(err)
-  //     };
-  //   }
-  // },
-  //
-  // async comparePassword(pass, hash) {
-  //   try {
-  //     const result = await bcrypt.compare(pass, hash);
-  //     return result;
-  //   } catch (err) {
-  //     handleError(err);
-  //     return err;
-  //   }
-  // }
 };

@@ -33,7 +33,7 @@ var uploadImage = multer({
 }).single('image');
 
 /* /user route */
-router.post('/create', isAuthenticated, userController.createUser);
+router.post('/', isAuthenticated, userController.createUser);
 
 router.get('/', userController.getUsers)
 

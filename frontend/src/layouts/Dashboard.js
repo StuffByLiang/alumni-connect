@@ -3,16 +3,16 @@ import { Route, Switch} from 'react-router-dom';
 
 
 /* import components */
-import DashboardNavbar from '../components/DashboardNavbar';
-import SideNav from '../components/SideNav';
+import DashboardNavbar from 'components/navigation/DashboardNavbar';
+import SideNav from 'components/navigation/SideNav';
 
 /* import pages */
-import HomePage from '../pages/HomePage';
-import SamplePage from '../pages/SamplePage';
-import LoginPage from '../pages/LoginPage';
-import SignupPage from '../pages/SignupPage';
-import ProfilePage from '../pages/ProfilePage';
-import EditProfilePage from '../pages/EditProfilePage';
+import { Home } from 'pages/Home';
+import Sample from 'pages/Sample';
+import { Login, Signup } from 'pages/Auth';
+import { Profile, EditProfile }from 'pages/Profile';
+import { Group, GroupList } from 'pages/Group';
+import { NewPost } from 'pages/Post';
 
 import '../scss/dashboard.scss';
 
@@ -24,12 +24,15 @@ class Dashboard extends Component {
         <div id="page-body">
           <DashboardNavbar />
           <Switch>
-            <Route path="/dashboard/" component={HomePage} exact />
-            <Route path="/dashboard/sample-page" component={SamplePage} exact />
-            <Route path="/dashboard/login" component={LoginPage} exact />
-            <Route path="/dashboard/signup" component={SignupPage} exact />
-            <Route path="/dashboard/profile" component={ProfilePage} exact />
-            <Route path="/dashboard/profile/edit" component={EditProfilePage} exact />
+            <Route path="/dashboard/" component={Home} exact />
+            <Route path="/dashboard/sample-page" component={Sample} exact />
+            <Route path="/dashboard/login" component={Login} exact />
+            <Route path="/dashboard/signup" component={Signup} exact />
+            <Route path="/dashboard/profile" component={Profile} exact />
+            <Route path="/dashboard/profile/edit" component={EditProfile} exact />
+            <Route path="/dashboard/groups/" component={GroupList} exact />
+            <Route path="/dashboard/groups/:id" component={Group} exact />
+            <Route path="/dashboard/groups/:id/posts/new" component={NewPost} exact />
           </Switch>
         </div>
       </div>

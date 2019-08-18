@@ -1,15 +1,22 @@
 const { Model } = require('objection');
-const findQuery = require('objection-find');
-const handleError = require( __base + 'components/errors/handle.js');
+const handleError = require( __base + 'helpers/handleError.js');
 
 
 class BaseModel extends Model {
+  static async create(query) {
+    try {
+    return await this
+      .query()
+      .insert(query);
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
+
   static async update(where, query) {
     // Use Case:
     // User.update({ id: 1 }, {element: value})
     try {
-      console.log(query)
-
       const result = await this.query().update(query).where(where);
       return result;
     } catch (err) {
@@ -28,9 +35,9 @@ class BaseModel extends Model {
 
   static async find(query) {
     try {
-      const users = await findQuery(this)
-        // .allow(['id', 'firstname', 'lastname', 'email'])
-        .build(query);
+      const users = await this
+        .query()
+        .where(query);
       return users;
     } catch (err) {
       throw handleError(err);

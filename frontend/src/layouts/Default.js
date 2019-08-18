@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { Route, Switch} from 'react-router-dom';
 
 /* import components */
-import DefaultNavbar from '../components/DefaultNavbar';
-
-import LoginPage from '../pages/LoginPage';
-import SignupPage from '../pages/SignupPage';
+import DefaultNavbar from 'components/navigation/DefaultNavbar';
+import {Login, Signup}from '../pages/Auth';
 
 class Default extends Component {
   render() {
@@ -13,9 +11,9 @@ class Default extends Component {
       <div className="default">
         <DefaultNavbar />
         <Switch>
-          <Route path="/" component={LoginPage} exact/>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/signup" component={SignupPage} />
+          <Route path="/" component={Login} exact/>
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </div>
     );

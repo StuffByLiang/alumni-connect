@@ -5,6 +5,8 @@
 @import "reset";
 
 @import "./components/index";
+@import "./pages/index";
+@import "./user/index";
 
 h1, h2 {
   color: $primary-color;

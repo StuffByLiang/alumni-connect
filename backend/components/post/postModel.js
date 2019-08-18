@@ -1,18 +1,17 @@
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
-
 const { Model } = require('objection');
 
 const findQuery = require('objection-find');
 
-const handleError = require( __base + 'components/errors/handle.js');
+const Group = require(__base + 'components/group/groupModel.js');
+const User = require(__base + 'components/user/UserModel.js');
+const Comment = require(__base + 'components/comment/commentModel.js');
 
-// var bcrypt = require("bcryptjs"); // for password hashing
+const handleError = require( __base + 'helpers/handleError.js');
+const BaseModel = require(__base + 'helpers/baseModel.js');
 
-/* CREATING OUR USER MODEL */
-class User extends Model {
+class Post extends BaseModel {
   static get tableName() {
-    return 'users'
+    return 'posts';
   }
 
   static get idColumn() {
@@ -26,95 +25,82 @@ class User extends Model {
 
       properties: {
         id: {type: 'integer'},
-        username: {type: 'string', minLength: 1, maxLength: 16},
-        password: {type: 'string', minLength: 1, maxLength: 60},
-        firstname: {type: 'string', minLength: 1, maxLength: 12},
-        lastname: {type: 'string', minLength: 1, maxLength: 12},
-        email: {type: 'string', minLength: 1, maxLength: 25},
-        location: {type: 'string', minLength: 1, maxLength: 120},
-        age: {type: 'integer'},
-        province: {type: 'string', minLength: 1, maxLength: 30},
-        school: {type: 'string', minLength: 1, maxLength: 256},
-        location: {type: 'string', minLength: 1, maxLength: 256},
-        phone: {type: 'string', minLength: 1, maxLength: 12},
-        website: {type: 'string', minLength: 1, maxLength: 64},
-        description: {type: 'string', minLength: 1, maxLength: 1000},
-        company: {type: 'string', minLength: 1, maxLength: 64},
-        position: {type: 'string', minLength: 1, maxLength: 64},
-        industry: {type: 'string', minLength: 1, maxLength: 64},
-        facebook: {type: 'string', minLength: 1, maxLength: 32},
-        instagram: {type: 'string', minLength: 1, maxLength: 32},
-        snapchat: {type: 'string', minLength: 1, maxLength: 32},
-        image_path: {type: 'string', minLength: 1, maxLength: 256},
+        user_id: {type: 'integer'},
+        group_id: {type: 'integer'},
+        post: {type: 'string'},
+        timestamp: {type: 'timestamp'},
       }
     };
   }
 
-  /* custom functions to retrieve data */
+  static get relationMappings() {
+    return {
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: {
+          from: 'posts.user_id',
+          to: 'users.id'
+        }
+      },
 
-  static async create(username, firstname, lastname, password, email) {
+      group: {
+        relation:  Model.BelongsToOneRelation,
+        modelClass: Group,
+        join: {
+          from: 'posts.group_id',
+          to: 'groups.id'
+        }
+      },
+
+      comments: {
+        relation:  Model.HasManyRelation,
+        modelClass: Comment,
+        join: {
+          from: 'posts.id',
+          to: 'comments.post_id'
+        }
+      },
+    };
+  }
+
+  static async findOne(query) {
     try {
-      const hashedPass = await bcrypt.hash(password, saltRounds);
-      const newPerson = await this
+      return await this
         .query()
-        .insert({ username: username, firstname: firstname, lastname: lastname, password: hashedPass, email: email });
-      return newPerson;
+        .eager('[user, group, comments]')
+        .modifyEager('user', builder => {
+          builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
+        })
+        .modifyEager('comments', builder => {
+          builder.orderBy('timestamp');;
+        })
+        .findOne(query)
     } catch (err) {
       throw handleError(err);
     }
   }
 
   static async find(query) {
-    // find multiple users
     try {
-      const users = await findQuery(this)
-        .allow(['id', 'firstname', 'lastname', 'email'])
-        .build(query);
-      return users;
-    } catch (err) {
-      throw handleError(err);
-    }
-  }
-
-  static async findByUserOrEmail(query) {
-    try {
-      const user = await this.query().where({username: query}).orWhere({email: query}).first();
-      return user;
-    } catch (err) {
-      throw handleError(err);
-    }
-  }
-
-  static async findOne(query) {
-    try {
-      const user = await User.query().findOne(query)
-      return user;
-    } catch (err) {
-      throw handleError(err);
-    }
-  }
-
-  static async comparePassword(pass, hash) {
-    try {
-      const result = await bcrypt.compare(pass, hash);
-      return result;
-    } catch (err) {
-      throw handleError(err);
-    }
-  }
-
-  static async update(where, query) {
-    // Use Case:
-    // User.update({ id: 1 }, {element: value})
-    try {
-      console.log(query)
-
-      const result = await User.query().update(query).where(where);
-      return result;
+      return await this
+        .query()
+        .eager('[user, group, comments.[user]]')
+        .modifyEager('user', builder => {
+          builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
+        })
+        .modifyEager('comments', builder => {
+          builder.orderBy('timestamp');;
+        })
+        .modifyEager('comments.[user]', builder => {
+          builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
+        })
+        .where(query)
+        .orderBy('timestamp', 'desc');
     } catch (err) {
       throw handleError(err);
     }
   }
 }
 
-module.exports = User;
+module.exports = Post;

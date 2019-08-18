@@ -6,7 +6,7 @@ const LocalStrategy = passportLocal.Strategy;
 const JWTStrategy = passportJWT.Strategy;
 // found in app.js
 
-const handleError = require(__base + 'components/errors/handle.js');
+const handleError = require(__base + 'helpers/handleError.js');
 const User = require(__base + 'components/user/userModel.js')
 
 module.exports = (app) => {
@@ -33,7 +33,7 @@ module.exports = (app) => {
         var result = await User.comparePassword(password, user.password);
         if(result) {
           console.log(user.username + " logged in");
-          
+
           // some security measures
           delete user.password;
 
@@ -87,6 +87,7 @@ module.exports = (app) => {
   );
 
   passport.serializeUser(function(user, done) {
+    console.log("User has logged in fuck me")
     done(null, user.id);
   });
 

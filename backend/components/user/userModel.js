@@ -1,9 +1,8 @@
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-const { Model } = require('objection');
 const findQuery = require('objection-find');
-const handleError = require( __base + 'components/errors/handle.js');
+const handleError = require( __base + 'helpers/handleError.js');
 const BaseModel = require(__base + 'helpers/baseModel.js');
 
 // var bcrypt = require("bcryptjs"); // for password hashing

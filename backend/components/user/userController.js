@@ -8,7 +8,7 @@ module.exports = {
   async createUser(req, res) {
     try {
       const { username, firstname, lastname, password, email } = req.body;
-      const newPerson = userService.createUser(username, firstname, lastname, password, email);
+      const newPerson = await userService.createUser(username, firstname, lastname, password, email);
 
       res.json({
         success: true,

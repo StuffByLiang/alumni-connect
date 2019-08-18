@@ -3,7 +3,7 @@ import { Router, Route, Switch} from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
-import { history } from './helpers';
+import { history } from 'helpers';
 
 import './scss/index.scss'; //sass styling
 
@@ -13,7 +13,7 @@ import './scss/index.scss'; //sass styling
 import Dashboard from './layouts/Dashboard';
 import Default from './layouts/Default';
 
-import { userActions } from './user/userActions';
+import { userActions } from 'modules/user/userActions';
 
 class App extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log(state)
+  // console.log(state)
   let { loggedIn, data } = state.user;
   return {
     userData: data,

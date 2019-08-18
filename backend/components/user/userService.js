@@ -2,7 +2,7 @@ const findQuery = require('objection-find');
 
 const User = require('./userModel');
 
-const handleError = require( __base + 'components/errors/handle.js');
+const handleError = require( __base + 'helpers/handleError.js');
 
 module.exports = {
   async createUser(username, firstname, lastname, password, email) {
