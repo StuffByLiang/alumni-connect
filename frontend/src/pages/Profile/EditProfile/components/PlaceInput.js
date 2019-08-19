@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import TextField from '@material-ui/core/TextField';
 
-import { profileActions } from 'profile/profileActions';
+import { profileActions } from 'modules/profile/profileActions';
 
 class PlaceInput extends Component {
   constructor(props) {

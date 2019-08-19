@@ -1,5 +1,5 @@
 import Profile from './Profile';
-import EditProfile from './EditProfile';
+import EditProfile from './EditProfile/EditProfile';
 
 export {
   Profile,

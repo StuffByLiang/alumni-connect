@@ -12,7 +12,7 @@ import {
   Grid,
 } from '@material-ui/core';
 
-import EditProfileInputs from 'components/editProfilePage/EditProfileInputs';
+import { InputSection } from './components';
 
 
 class EditProfile extends Component {
@@ -27,7 +27,7 @@ class EditProfile extends Component {
               Your Profile!
               </Typography>
               {this.props.data&&
-                <EditProfileInputs />
+                <InputSection />
               }
             </Paper>
           </Grid>

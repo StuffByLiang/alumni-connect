@@ -31,8 +31,8 @@ class Dashboard extends Component {
             <Route path="/dashboard/profile" component={Profile} exact />
             <Route path="/dashboard/profile/edit" component={EditProfile} exact />
             <Route path="/dashboard/groups/" component={GroupList} exact />
-            <Route path="/dashboard/groups/:id" component={Group} exact />
-            <Route path="/dashboard/groups/:id/posts/new" component={NewPost} exact />
+            <Route path="/dashboard/groups/:group_id" component={Group} exact />
+            <Route path="/dashboard/groups/:group_id/posts/new" component={NewPost} exact />
           </Switch>
         </div>
       </div>

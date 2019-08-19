@@ -29,9 +29,19 @@ function getPosts(query) {
     dispatch(request(query));
 
     try {
-      let response = await postService.getPosts(query);
+      let data = await postService.getPosts(query);
 
-      dispatch(success(response));
+      // convert posts & comment arrays into key-object pairs
+      data.posts = data.posts.reduce((newPosts, post) => {
+        post.comments = post.comments.reduce((newComments, comment) => {
+          newComments.byId[comment.id] = comment;
+          return newComments;
+        }, { byId: {} } );
+        newPosts[post.id] = post;
+        return newPosts;
+      }, {});
+
+      dispatch(success(data.posts));
     } catch (error) {
       // console.log("error", error)
       dispatch(failure(error))
@@ -39,6 +49,6 @@ function getPosts(query) {
   };
 
   function request(query) { return { type: postConstants.GET_POSTS_REQUEST, query }}
-  function success(data) { return { type: postConstants.GET_POSTS_SUCCESS, data }}
+  function success(posts) { return { type: postConstants.GET_POSTS_SUCCESS, posts }}
   function failure(error) { return { type: postConstants.GET_POSTS_FAILURE, error }}
 };

@@ -18,10 +18,10 @@ class NewPost extends Component {
   }
 
   async componentDidMount() {
-    let { id } = this.props.match.params;
+    let { group_id } = this.props.match.params;
     let result = await axios.get('/group' , {
       params: {
-        id: id
+        id: group_id
       }
     })
 
@@ -35,11 +35,11 @@ class NewPost extends Component {
 
   handleClick() {
     const { uploadPost } = this.props;
-    const { id } = this.props.match.params;
+    const { group_id } = this.props.match.params;
 
     let content = this.quill.root.innerHTML;
 
-    uploadPost(id, content);
+    uploadPost(group_id, content);
   }
 
   render() {

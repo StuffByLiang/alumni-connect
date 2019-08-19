@@ -4,7 +4,9 @@ const initialState = {
   uploading: false,
   loading: false,
   comments: [],
-  writing: {},
+  drafts: {
+    byId: {}
+  },
 };
 
 export function comment(state = initialState, action) {
@@ -51,11 +53,14 @@ export function comment(state = initialState, action) {
     case commentConstants.COMMENT_CHANGE:
       return {
         ...state,
-        writing: {
-          ...state.writing,
-          [action.post_id]: {
-            replyTo_comment_id: action.replyTo_comment_id,
-            comment: action.comment,
+        drafts: {
+          byId: {
+            ...state.drafts.byId,
+            [action.post_id]: {
+              id: action.post_id,
+              replyTo_comment_id: action.replyTo_comment_id,
+              comment: action.comment,
+            }
           }
         }
       }

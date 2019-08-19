@@ -48,4 +48,21 @@
   .comment-body {
     margin-top: 10px;
   }
+
+  .comment-action {
+    margin-top: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+
+    .MuiSvgIcon-root {
+      width: 0.9em;
+      height: 0.9em;
+      font-size: 1.2rem;
+      margin-right: 4px;
+    }
+
+    &:hover {
+      color: #999;
+    }
+  }
 }

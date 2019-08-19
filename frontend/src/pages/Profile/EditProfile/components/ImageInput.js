@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { Icon } from '@material-ui/core';
 
-import { profileActions } from  'profile/profileActions';
+import { profileActions } from  'modules/profile/profileActions';
 
 
 class ImageInput extends Component {

@@ -16,14 +16,13 @@ import {
   MenuItem
 } from '@material-ui/core';
 
-import PlaceInput from 'components/editProfilePage/PlaceInput';
-import ImageInput from 'components/editProfilePage/ImageInput';
+import { PlaceInput, ImageInput } from './';
 
-import { profileActions } from 'profile/profileActions.js';
-
+import { profileActions } from 'modules/profile/profileActions.js';
 
 
-class EditProfileInputs extends Component {
+
+class InputSection extends Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -182,4 +181,4 @@ const mapDispatchToProps = {
   saveChanges: profileActions.saveChanges,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfileInputs);
+export default connect(mapStateToProps, mapDispatchToProps)(InputSection);

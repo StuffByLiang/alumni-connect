@@ -3,7 +3,9 @@ import { postConstants } from './postConstants.js';
 const initialState = {
   uploading: false,
   loading: false,
-  posts: []
+  posts: {
+    byId: {}
+  }
 };
 
 export function post(state = initialState, action) {
@@ -32,13 +34,17 @@ export function post(state = initialState, action) {
         ...state,
         query: action.query,
         loading: true,
-        posts: [],
+        posts: {
+          byId: {}
+        }
       }
     case postConstants.GET_POSTS_SUCCESS:
       return {
         ...state,
         loading: false,
-        posts: action.data.posts,
+        posts: {
+          byId: action.posts
+        },
       }
     case postConstants.GET_POSTS_FAILURE:
       return {
