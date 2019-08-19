@@ -9,39 +9,46 @@ import { ProfilePicture, Time } from 'components/';
 
 
 export const CommentInputComponent = (props) => {
-  let { post } = props;
+  let { image_path, post_id, replyTo_comment_id, firstLevelCommentId } = props;
+
+  const isCommentReply = replyTo_comment_id===null ? false : true; // is this comment replying to another comment?
 
   function onCommentChange(e) {
     let {value} = e.target;
-    let post_id = e.target.getAttribute("post_id");
-    let replyTo_comment_id = e.target.getAttribute("replyTo_comment_id");
 
-    props.handleCommentChange(post_id, value, replyTo_comment_id);
+    props.handleCommentChange(post_id, value, replyTo_comment_id, firstLevelCommentId);
   }
 
-  function handleSendComment(post_id) {
-    let query = props.drafts.byId[post_id];
-    query.post_id = post_id;
+  function handleSendComment() {
+    let query = props.query;
+    // console.log(query);
 
     props.uploadComment(query);
   }
 
   return (
     <Box className="comment-input-container" display="flex" flexDirection="row" alignItems="center">
-      <ProfilePicture size="small" image_path={post.user.image_path} />
-      <Box className="comment-input" flex="auto"><TextField inputProps={{post_id: post.id}} className="small" onBlur={onCommentChange} fullWidth multiline rowsMax={6} label="Comment" name="comment" type="text" /></Box>
-      <IconButton post_id={post.id} onClick={()=>handleSendComment(post.id)}>
+      <ProfilePicture size="small" image_path={image_path} />
+      <Box className="comment-input" flex="auto"><TextField inputProps={{post_id: post_id}} className="small" onBlur={onCommentChange} fullWidth multiline rowsMax={6} label="Comment" name="comment" type="text" /></Box>
+      <IconButton onClick={handleSendComment}>
         <SendIcon />
       </IconButton>
     </Box>
   );
 }
 
-function mapStateToProps(state) {
-  const { drafts } = state.comment;
+function mapStateToProps(state, ownProps) {
+  const isCommentReply = ownProps.replyTo_comment_id ? true : false; // is this comment replying to another comment?
+  const { image_path } = state.user.data;
+
+  let query;
+  if(isCommentReply) query = state.comment.commentDrafts.byCommentId[ownProps.replyTo_comment_id];
+  else query = state.comment.commentDrafts.byPostId[ownProps.post_id];
+
   return {
-    drafts
-  }
+    query,
+    image_path,
+  };
 }
 
 const mapDispatchToProps = {

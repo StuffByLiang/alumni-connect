@@ -17,7 +17,7 @@ async function getPosts(query) {
   let response = await axios.get('/post', {
     params: query
   });
-  console.log(response)
+  // console.log(response)
   return handleResponse(response);
 }
 

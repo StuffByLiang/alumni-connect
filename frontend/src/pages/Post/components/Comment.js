@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { commentActions } from 'modules/actions';
+
 import { Link } from 'react-router-dom';
 
 import { Box, IconButton } from '@material-ui/core';
@@ -8,8 +11,28 @@ import ReplyIcon from '@material-ui/icons/Reply';
 
 import { ProfilePicture, Time } from 'components/';
 
+import { CommentInput } from './';
 
-export const Comment = ({comment}) => {
+
+const CommentComponent = (props) => {
+
+  let { comment, commentState, toggleCommentReply, level } = props;
+
+  const replyTo_comment_id = comment.id;
+
+  // if level is 2, then the first level coment will be the comment that this comment has replied to.
+  const firstLevelCommentId = level===1 ? comment.id : comment.replyTo_comment_id;
+
+  // console.log(commentState);
+
+  function handleLikeComment() {
+
+  }
+
+  function handleReplyComment() {
+    toggleCommentReply(comment);
+  }
+
   return (
     <>
     <Box className="comment-container" display="flex" flexDirection="row" alignItems="flex-start">
@@ -21,15 +44,38 @@ export const Comment = ({comment}) => {
         <div className="comment-body">{comment.comment}</div>
 
         <div className="comment-footer">
-          <Box className="comment-action" display="inline-flex" post_id={comment.id} onClick={()=>this.handleLikeComment(comment.id)}>
+          <Box className="comment-action" display="inline-flex" post_id={comment.id} onClick={()=>handleLikeComment(comment.id)}>
             <LikeIcon /> Like
           </Box>
-          <Box className="comment-action" display="inline-flex" post_id={comment.id} onClick={()=>this.handleReplyComment(comment.id)}>
+          <Box className="comment-action" display="inline-flex" post_id={comment.id} onClick={()=>handleReplyComment(comment.id)}>
             <ReplyIcon /> Reply
           </Box>
         </div>
+
+        {commentState.reply &&
+          <CommentInput post_id={comment.post_id} firstLevelCommentId={firstLevelCommentId} replyTo_comment_id={replyTo_comment_id} />
+        }
+
+        {comment.replies && Object.keys(comment.replies.byId).map((id) => {
+          let reply = comment.replies.byId[id];
+          return <Comment level={2} key={reply.id} comment={reply} />
+        })}
       </Box>
     </Box>
     </>
   );
 }
+
+function mapStateToProps(state, ownProps) {
+  let { post_id, id } = ownProps.comment;
+  const commentState = state.comment.commentState.byId[id];
+  return {
+    commentState
+  }
+}
+
+const mapDispatchToProps = {
+  toggleCommentReply: commentActions.toggleCommentReply
+}
+
+export const Comment = connect(mapStateToProps, mapDispatchToProps)(CommentComponent);

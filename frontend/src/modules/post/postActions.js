@@ -1,6 +1,9 @@
 import { postService } from './postService.js';
 import { postConstants } from './postConstants.js';
 
+import { commentActions } from '../comment/commentActions.js';
+
+
 export const postActions = {
     uploadPost,
     getPosts,
@@ -34,6 +37,16 @@ function getPosts(query) {
       // convert posts & comment arrays into key-object pairs
       data.posts = data.posts.reduce((newPosts, post) => {
         post.comments = post.comments.reduce((newComments, comment) => {
+          comment.replies = comment.replies.reduce((newReplies, reply) => {
+            //initiate comment!
+            dispatch(commentActions.commentInit(reply));
+
+            newReplies.byId[reply.id] = reply;
+            return newReplies;
+          }, { byId: {} } );
+          //initiate comment!
+          dispatch(commentActions.commentInit(comment));
+
           newComments.byId[comment.id] = comment;
           return newComments;
         }, { byId: {} } );

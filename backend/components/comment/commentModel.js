@@ -39,6 +39,14 @@ class Comment extends BaseModel {
           to: 'users.id'
         }
       },
+      replies: {
+        relation: Model.HasManyRelation,
+        modelClass: Comment,
+        join: {
+          from: 'comments.id',
+          to: 'comments.replyTo_comment_id'
+        }
+      },
     }
   }
 }

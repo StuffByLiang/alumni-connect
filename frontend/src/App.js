@@ -25,7 +25,7 @@ class App extends Component {
 
   componentWillMount() {
     const { loggedIn, userData, getProfile } = this.props;
-    if(loggedIn && userData === null) {
+    if(loggedIn && userData.id === undefined) {
       console.log('grabbing profile...');
       getProfile();
     }

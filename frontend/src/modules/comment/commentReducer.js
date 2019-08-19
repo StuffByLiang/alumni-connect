@@ -3,9 +3,14 @@ import { commentConstants } from './commentConstants.js';
 const initialState = {
   uploading: false,
   loading: false,
-  comments: [],
-  drafts: {
-    byId: {}
+  commentState: {
+    byId: {
+
+    },
+  },
+  commentDrafts: {
+    byPostId: {},
+    byCommentId: {},
   },
 };
 
@@ -30,39 +35,64 @@ export function comment(state = initialState, action) {
         error: action.error,
       }
 
-    case commentConstants.GET_COMMENTS_REQUEST:
+    case commentConstants.COMMENT_INIT:
       return {
         ...state,
-        query: action.query,
-        loading: true,
-        comments: [],
-      }
-    case commentConstants.GET_COMMENTS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        comments: action.data.comments,
-      }
-    case commentConstants.GET_COMMENTS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.error,
+        commentState: {
+          byId: {
+            ...state.commentState.byId,
+            [action.comment_id]: {
+              reply: false,
+              liked: false,
+            }
+          },
+        },
       }
 
     case commentConstants.COMMENT_CHANGE:
-      return {
+      // if replying to another comment
+      if(action.replyTo_comment_id) return {
         ...state,
-        drafts: {
-          byId: {
-            ...state.drafts.byId,
-            [action.post_id]: {
-              id: action.post_id,
-              replyTo_comment_id: action.replyTo_comment_id,
+        commentDrafts: {
+          ...state.commentDrafts,
+          byCommentId: {
+            ...state.commentDrafts.byCommentId,
+            [action.replyTo_comment_id]: {
+              post_id: action.post_id,
+              replyTo_comment_id: action.firstLevelCommentId,
               comment: action.comment,
             }
           }
         }
+      }
+      else return {
+        ...state,
+        commentDrafts: {
+            ...state.commentDrafts,
+          byPostId: {
+            ...state.commentDrafts.byPostId,
+            [action.post_id]: {
+              post_id: action.post_id,
+              replyTo_comment_id: null,
+              comment: action.comment,
+            }
+          }
+        }
+      }
+
+    case commentConstants.TOGGLE_COMMENT_REPLY:
+      let commentState = state.commentState.byId[action.comment_id];
+      return {
+        ...state,
+        commentState: {
+          byId: {
+            ...state.commentState.byId,
+            [action.comment_id]: {
+              reply: commentState.reply ? false : true,
+              liked: false,
+            }
+          },
+        },
       }
 
     default:

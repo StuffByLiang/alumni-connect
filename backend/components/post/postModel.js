@@ -68,12 +68,18 @@ class Post extends BaseModel {
     try {
       return await this
         .query()
-        .eager('[user, group, comments]')
+        .eager('[user, group, comments.[replies, user]]')
         .modifyEager('user', builder => {
           builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
         })
         .modifyEager('comments', builder => {
-          builder.orderBy('timestamp');;
+          builder.whereNull('replyTo_comment_id').orderBy('timestamp');
+        })
+        .modifyEager('comments.replies', builder => {
+          builder.orderBy('timestamp');
+        })
+        .modifyEager('comments.user', builder => {
+          builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
         })
         .findOne(query)
     } catch (err) {
@@ -85,14 +91,20 @@ class Post extends BaseModel {
     try {
       return await this
         .query()
-        .eager('[user, group, comments.[user]]')
+        .eager('[user, group, comments.[replies.user, user]]')
         .modifyEager('user', builder => {
           builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
         })
         .modifyEager('comments', builder => {
-          builder.orderBy('timestamp');;
+          builder.whereNull('replyTo_comment_id').orderBy('timestamp');
         })
-        .modifyEager('comments.[user]', builder => {
+        .modifyEager('comments.replies', builder => {
+          builder.orderBy('timestamp');
+        })
+        .modifyEager('comments.user', builder => {
+          builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
+        })
+        .modifyEager('comments.replies.user', builder => {
           builder.select('id', 'firstname', 'lastname', 'username', 'image_path', 'company', 'position');
         })
         .where(query)

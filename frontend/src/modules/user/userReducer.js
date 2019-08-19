@@ -1,7 +1,7 @@
 import { userConstants } from './userConstants.js';
 
 let userData = JSON.parse(localStorage.getItem('user'));
-const initialState = userData ? { loggedIn: true, user: userData, data: null } : { data: null };
+const initialState = userData ? { loggedIn: true, user: userData, data: {} } : { data: {} };
 
 export function user(state = initialState, action) {
   // console.log("user", state, action);
@@ -27,7 +27,7 @@ export function user(state = initialState, action) {
     case userConstants.LOGOUT_REQUEST:
     case userConstants.LOGOUT_SUCCESS:
     case userConstants.LOGOUT_FAILURE:
-      return { data: null };
+      return { data: {} };
 
     case userConstants.GET_PROFILE_REQUEST:
       return state;

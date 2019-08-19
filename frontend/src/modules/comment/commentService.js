@@ -14,7 +14,7 @@ async function getComments(query) {
   let response = await axios.get('/comment', {
     params: query
   });
-  console.log(response)
+  // console.log(response)
   return handleResponse(response);
 }
 

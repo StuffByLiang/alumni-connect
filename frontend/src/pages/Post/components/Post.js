@@ -27,11 +27,11 @@ const PostComponent = (props) => {
 
       <Divider />
 
-      <CommentInput post={post} />
+      <CommentInput post_id={post.id} />
 
       {Object.keys(post.comments.byId).map((id) => {
         let comment = post.comments.byId[id];
-        return <Comment key={comment.id} comment={comment} />
+        return <Comment level={1} key={comment.id} comment={comment} />
       })}
 
     </Paper>
