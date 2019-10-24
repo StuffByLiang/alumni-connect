@@ -26,8 +26,8 @@ class BaseModel extends Model {
 
   static async findOne(query) {
     try {
-      const user = await this.query().findOne(query)
-      return user;
+      const result= await this.query().findOne(query)
+      return result;
     } catch (err) {
       throw handleError(err);
     }
@@ -35,10 +35,22 @@ class BaseModel extends Model {
 
   static async find(query) {
     try {
-      const users = await this
+      const result = await this
         .query()
         .where(query);
-      return users;
+      return result;
+    } catch (err) {
+      throw handleError(err);
+    }
+  }
+
+  static async delete(query) {
+    try {
+      const result = await this
+        .query()
+        .delete()
+        .where(query);
+      return result;
     } catch (err) {
       throw handleError(err);
     }

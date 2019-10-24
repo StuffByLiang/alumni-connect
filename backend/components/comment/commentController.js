@@ -58,4 +58,35 @@ module.exports = {
       })
     }
   },
+
+  async delete(req, res) {
+    try {
+      let { comment_id } = req.body;
+
+      const comment = await Comment.findOne({
+        id: comment_id
+      });
+
+      if(req.user.id !== comment.user_id) {
+        throw 'User does not own the comment';
+      }
+
+      await Comment.delete({
+        replyTo_comment_id: comment_id
+      }); // delete replies
+      const result = await Comment.delete({
+        id: comment_id
+      });
+
+      res.json({
+        success: true,
+        data: result,
+      })
+    } catch (err) {
+      res.json({
+        success: false,
+        data: err
+      })
+    }
+  },
 };

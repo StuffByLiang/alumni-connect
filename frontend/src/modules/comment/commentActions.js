@@ -8,7 +8,8 @@ export const commentActions = {
     getComments,
     handleCommentChange,
     commentInit,
-    toggleCommentReply
+    toggleCommentReply,
+    deleteComment
 };
 
 function handleCommentChange(post_id, comment, replyTo_comment_id=null, firstLevelCommentId=null) {
@@ -59,6 +60,25 @@ function getComments(query) {
   function request(query) { return { type: commentConstants.GET_COMMENTS_REQUEST, query }}
   function success(data) { return { type: commentConstants.GET_COMMENTS_SUCCESS, data }}
   function failure(error) { return { type: commentConstants.GET_COMMENTS_FAILURE, error }}
+};
+
+function deleteComment(comment_id) {
+  return async (dispatch, getState) => {
+    dispatch(request(comment_id));
+
+    try {
+      let response = await commentService.deleteComment(comment_id);
+
+      dispatch(success(response));
+    } catch (error) {
+      // console.log("error", error)
+      dispatch(failure(error))
+    }
+  };
+
+  function request(comment_id) { return { type: commentConstants.DELETE_COMMENT_REQUEST, comment_id }}
+  function success(data) { return { type: commentConstants.DELETE_COMMENT_SUCCESS, data }}
+  function failure(error) { return { type: commentConstants.DELETE_COMMENT_FAILURE, error }}
 };
 
 function commentInit(comment) {

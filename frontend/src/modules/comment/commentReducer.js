@@ -2,6 +2,7 @@ import { commentConstants } from './commentConstants.js';
 
 const initialState = {
   uploading: false,
+  deleting: false,
   loading: false,
   commentState: {
     byId: {
@@ -17,11 +18,6 @@ const initialState = {
 export function comment(state = initialState, action) {
   // console.log("user", state, action);
   switch (action.type) {
-    case commentConstants.UPLOAD_COMMENT_REQUEST:
-      return {
-        ...state,
-        uploading: true,
-      }
     case commentConstants.UPLOAD_COMMENT_SUCCESS:
       return {
         ...state,
@@ -33,6 +29,29 @@ export function comment(state = initialState, action) {
         ...state,
         uploading: false,
         error: action.error,
+      }
+    case commentConstants.UPLOAD_COMMENT_REQUEST:
+      return {
+        ...state,
+        uploading: true,
+      }
+
+    case commentConstants.DELETE_COMMENT_REQUEST:
+      return {
+        ...state,
+        deleting: true,
+      }
+    case commentConstants.DELETE_COMMENT_FAILURE:
+      return {
+        ...state,
+        deleting: false,
+        error: action.error,
+      }
+    case commentConstants.DELETE_COMMENT_SUCCESS:
+      return {
+        ...state,
+        deleting: false,
+        data: action.data,
       }
 
     case commentConstants.COMMENT_INIT:

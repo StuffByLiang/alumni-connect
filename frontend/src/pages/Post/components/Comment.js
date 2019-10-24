@@ -11,7 +11,7 @@ import ReplyIcon from '@material-ui/icons/Reply';
 
 import { ProfilePicture, Time } from 'components/';
 
-import { CommentInput } from './';
+import { CommentInput, CommentOptions } from './';
 
 
 const CommentComponent = (props) => {
@@ -33,15 +33,24 @@ const CommentComponent = (props) => {
     toggleCommentReply(comment);
   }
 
+  function handleMore() {
+
+  }
+
   return (
     <>
     <Box className="comment-container" display="flex" flexDirection="row" alignItems="flex-start">
       <ProfilePicture size="small" image_path={comment.user.image_path} />
-      <Box className="" flex="auto">
-        <Link className="user-name" to="">{comment.user.firstname + ' ' + comment.user.lastname}</Link>
-        <div className="user-title">{comment.user.position + ', ' + comment.user.company}</div>
-        <div className="user-time"><Time date={comment.timestamp}/></div>
-        <div className="comment-body">{comment.comment}</div>
+      <Box flex="auto">
+        <Box display="flex" flexDirection="row" alignItems="flex-start">
+          <Box flex="auto">
+            <Link className="user-name" to="">{comment.user.firstname + ' ' + comment.user.lastname}</Link>
+            <div className="user-title">{comment.user.position + ', ' + comment.user.company}</div>
+            <div className="user-time"><Time date={comment.timestamp}/></div>
+            <div className="comment-body">{comment.comment}</div>
+          </Box>
+          <CommentOptions comment_id={comment.id} user_id={comment.user.id} />
+        </Box>
 
         <div className="comment-footer">
           <Box className="comment-action" display="inline-flex" post_id={comment.id} onClick={()=>handleLikeComment(comment.id)}>

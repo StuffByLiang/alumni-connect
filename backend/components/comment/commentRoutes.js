@@ -13,4 +13,7 @@ router.get('/', commentController.get)
 
 router.post(':id/update', isAuthenticated, commentController.update);
 
+router.post('/delete', isAuthenticated, commentController.delete);
+
+
 module.exports = router;
