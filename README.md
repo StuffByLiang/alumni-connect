@@ -36,5 +36,5 @@ Migrate Databases by typing in
 
 You're done!
 
-## How the fuck is this project structured???
+## How is this project structured???
 There are two node.js applications. One is the express backend located in /backend, and the other is a frontend React application located on /frontend.
