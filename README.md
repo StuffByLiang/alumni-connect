@@ -1,12 +1,11 @@
 
-# shad_connect
-Node.js &amp; React prototype app for the shad alumni network
-Made by Liang and Patrick
+# alumni connect
+Node.js, Express React and MySQL Fullstack Alumni Connecting system prototype
 
 ## Get Started
 Navigate into a directory you would like to put the project folder in and then clone the project
 
-    git clone https://github.com/StuffByLiang/shad_connect.git
+    git clone https://github.com/StuffByLiang/alumni_connect.git
 
 Then install dependencies. Will take a couple of minutes... be patient
 
